@@ -1,0 +1,33 @@
+{
+  "passed": 27,
+  "checks": [
+    "Unauthenticated business data blocked",
+    "Null login fields rejected without server error",
+    "Incorrect password rejected",
+    "Arabic compound command yields two proposals",
+    "Arabic thousand amount parsed",
+    "Missing sale price remains missing",
+    "Proposals do not change inventory",
+    "Staff cannot approve",
+    "Purchase posts correct stock and weighted cost",
+    "Repeated approval is idempotent",
+    "Missing selling price blocks posting",
+    "Sale cost and gross profit correct",
+    "Stale or posted proposal edit rejected",
+    "Workflow is a proposal before activation",
+    "Return request does not restock",
+    "Approved return reverses revenue and COGS",
+    "Return approval is idempotent",
+    "Cumulative over-return blocked",
+    "Unusual purchase requires explicit acknowledgement",
+    "Acknowledged purchase posts",
+    "Document answer has source citations",
+    "Extractive answer quotes source text",
+    "Insufficient shop history is disclosed",
+    "AIOps detects labelled simulation",
+    "AIOps probes AI health",
+    "Simulation does not mutate stock",
+    "Audit trail exists"
+  ],
+  "database": "SQLite local integration test; PostgreSQL path separately configured, not exercised here"
+}

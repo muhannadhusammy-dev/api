@@ -1,0 +1,56 @@
+{
+  "created": "2026-11-01",
+  "datasets": [
+    {
+      "name": "Intent fixture",
+      "source": "Authored for this submission",
+      "count": 150,
+      "limitations": "Not real customer speech"
+    },
+    {
+      "name": "Retrieval fixture",
+      "source": "Authored for this submission",
+      "limitations": "15policies and20questions"
+    },
+    {
+      "name": "Walmart weekly sales",
+      "source": "https://raw.githubusercontent.com/GonzaloBP/Almacen-de-datos-Walmart/main/Walmart.csv",
+      "limitations": "Public teaching-data mirror; historical US monetary sales, not Egyptian product demand. Verify upstream reuse terms before commercial redistribution."
+    },
+    {
+      "name": "CORU",
+      "source": "https://huggingface.co/datasets/abdoelsayed/CORU",
+      "attribution": "Abdo El Sayed and CORU contributors",
+      "license": "MIT as identified by upstream dataset card; consult upstream for full terms",
+      "subset": "40OCRlinecrops, fixture filenames in results/ocr.json"
+    },
+    {
+      "name": "FLEURS",
+      "source": "https://huggingface.co/datasets/google/fleurs",
+      "attribution": "Google FLEURS contributors; Conneau et al., FLEURS: Few-shot Learning Evaluation of Universal Representations of Speech (2022)",
+      "license": "CC-BY-4.0 https://creativecommons.org/licenses/by/4.0/",
+      "modification": "First8ar_egtest recordings re-encoded as16kHzWAV; references retained in labels.json"
+    },
+    {
+      "name": "Receipt fixtures",
+      "source": "Generated synthetic English receipts",
+      "limitations": "No real supplier/tax document"
+    },
+    {
+      "name": "Embedding",
+      "source": "https://huggingface.co/Xenova/paraphrase-multilingual-MiniLM-L12-v2",
+      "limitations": "Frozen quantized ONNX sentence encoder"
+    },
+    {
+      "name": "Whisper",
+      "source": "https://huggingface.co/Systran/faster-whisper-small",
+      "limitations": "WhisperSmall selected on4development clips"
+    }
+  ],
+  "input_sha256": {
+    "data/intents.json": "bc2333c27e639a3d745922849834c843a2c6a97cd9cbefba8a302f44ca678180",
+    "data/retrieval_fixture.json": "cf670979f123c0bfe20832fe889e4c5af8f8ecd0ebcff65639112bd5f986c3ba",
+    "data/walmart.csv": "9cd52db918f0249288b8bdb35dcdaeede5ed7a55f8ed1f8b910a93a550cbf893",
+    "data/speech/labels.json": "202488f78b5fda28a9312eb151c4e35e7fa85b575ae404f8f2b511cb48bf4f4f"
+  }
+}

@@ -1,0 +1,7 @@
+-r requirements-runtime.txt
+pandas==2.2.3
+lightgbm==4.7.0
+tensorflow-cpu==2.21.0
+rapidocr-onnxruntime==1.4.4
+jiwer==4.0.0
+scipy==1.17.0

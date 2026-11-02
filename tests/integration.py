@@ -1,0 +1,42 @@
+import urllib.request,urllib.error,http.cookiejar,json,uuid,os
+BASE=os.environ.get('TAJER_TEST_URL','http://127.0.0.1:5082/api/')
+def client():return urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
+owner,staff=client(),client();checks=[]
+def call(c,path,method='GET',payload=None,expected=200):
+ req=urllib.request.Request(BASE+path,method=method,headers={'Content-Type':'application/json','X-Tajer-Request':'1'},data=None if payload is None else json.dumps(payload).encode())
+ try:
+  r=c.open(req,timeout=180);status=r.status;raw=r.read()
+ except urllib.error.HTTPError as e:status=e.code;raw=e.read()
+ assert status==expected,(path,status,raw[:500]);return json.loads(raw) if raw else {}
+def check(name,condition=True):assert condition,name;checks.append(name);print('PASS',name,flush=True)
+call(owner,'dashboard',expected=401);check('Unauthenticated business data blocked')
+call(owner,'login','POST',{'email':None,'password':None},expected=400);check('Null login fields rejected without server error')
+call(owner,'login','POST',{'email':'owner@tajer.local','password':'wrong'},expected=401);check('Incorrect password rejected')
+for c,email in [(owner,'owner@tajer.local'),(staff,'staff@tajer.local')]:call(c,'login','POST',{'email':email,'password':'TajerDemo!2026'})
+r=call(staff,'commands/propose','POST',{'text':'أنا اشتريت 50 كرتونة زيت بـ 12 ألف جنيه، وبعت 15 كرتونة. قولي كسبت كام','requestKey':str(uuid.uuid4())});ps=r['proposals'];check('Arabic compound command yields two proposals',len(ps)==2)
+purchase=next(p for p in ps if p['kind']=='purchase');sale=next(p for p in ps if p['kind']=='sale');check('Arabic thousand amount parsed',purchase['total']==12000);check('Missing sale price remains missing',sale['total'] is None)
+def dash():return call(owner,'dashboard')
+def oil(d):return next(x for x in d['products'] if x['id']=='oil')
+check('Proposals do not change inventory',oil(dash())['stock']==0)
+call(staff,f"proposals/{purchase['id']}/approve",'POST',{'version':1},expected=403);check('Staff cannot approve')
+call(owner,f"proposals/{purchase['id']}/approve",'POST',{'version':1});d=dash();check('Purchase posts correct stock and weighted cost',oil(d)['stock']==50 and oil(d)['averageCost']==240)
+call(owner,f"proposals/{purchase['id']}/approve",'POST',{'version':1});check('Repeated approval is idempotent',oil(dash())['stock']==50)
+call(owner,f"proposals/{sale['id']}/approve",'POST',{'version':1},expected=400);check('Missing selling price blocks posting',oil(dash())['stock']==50)
+sale=call(owner,f"proposals/{sale['id']}",'PUT',{'version':1,'quantity':15,'total':4500});call(owner,f"proposals/{sale['id']}/approve",'POST',{'version':sale['version']});d=dash();check('Sale cost and gross profit correct',oil(d)['stock']==35 and d['grossProfit']==900)
+# Stale edit is rejected.
+call(owner,f"proposals/{sale['id']}",'PUT',{'version':1,'quantity':15,'total':100},expected=409);check('Stale or posted proposal edit rejected')
+w=call(owner,'workflows/propose','POST',{'text':'اعمل قسم مرتجعات بموافقة المالك'});check('Workflow is a proposal before activation',w['status']=='pending')
+sale_row=next(x for x in d['ledger'] if x['kind']=='sale');call(owner,f"workflows/{w['id']}/records",'POST',{'saleId':sale_row['id'],'quantity':2,'reason':'Unopened'},expected=400)
+call(owner,f"workflows/{w['id']}/approve",'POST');record=call(owner,f"workflows/{w['id']}/records",'POST',{'saleId':sale_row['id'],'quantity':2,'reason':'Unopened'});check('Return request does not restock',oil(dash())['stock']==35)
+call(owner,f"workflow-records/{record['id']}/approve",'POST');d=dash();check('Approved return reverses revenue and COGS',oil(d)['stock']==37 and d['revenue']==3900 and d['grossProfit']==780)
+call(owner,f"workflow-records/{record['id']}/approve",'POST');check('Return approval is idempotent',oil(dash())['stock']==37)
+r=call(owner,f"workflows/{w['id']}/records",'POST',{'saleId':sale_row['id'],'quantity':14,'reason':'Too much'});call(owner,f"workflow-records/{r['id']}/approve",'POST',expected=409);check('Cumulative over-return blocked',oil(dash())['stock']==37)
+p=call(owner,'proposals','POST',{'kind':'purchase','productId':'oil','quantity':5,'total':5000,'requestKey':str(uuid.uuid4()),'source':'Unusual cost test'});call(owner,f"proposals/{p['id']}/approve",'POST',{'version':1},expected=409);check('Unusual purchase requires explicit acknowledgement',oil(dash())['stock']==37)
+call(owner,f"proposals/{p['id']}/approve",'POST',{'version':1,'acknowledgeAnomaly':True});check('Acknowledged purchase posts',oil(dash())['stock']==42)
+r=call(owner,'ask','POST',{'text':'ما هي سياسة المرتجعات؟'});check('Document answer has source citations',len(r['citations'])>0 and '14' in r['answer']);check('Extractive answer quotes source text',all(c['text'] in r['answer'] for c in r['citations']))
+f=call(owner,'forecast/oil');check('Insufficient shop history is disclosed',f['status']=='insufficient_history')
+call(owner,'ops/simulate-failure','POST',expected=503);ops=call(owner,'ops');check('AIOps detects labelled simulation',any(x['code']=='SIMULATED_FAILURE' for x in ops['telemetry']['alerts']));check('AIOps probes AI health',ops['aiService']=='healthy');check('Simulation does not mutate stock',oil(dash())['stock']==42)
+check('Audit trail exists',len(call(owner,'audit'))>=12)
+from pathlib import Path
+(Path(__file__).resolve().parents[1]/'results/integration_tests.json').write_text(json.dumps({'passed':len(checks),'checks':checks,'database':'SQLite local integration test; PostgreSQL path separately configured, not exercised here'},indent=2))
+print('ALL',len(checks),'CHECKS PASSED',flush=True)

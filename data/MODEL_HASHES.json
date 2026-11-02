@@ -1,0 +1,19 @@
+{
+  "data/embedding/tokenizer.json": "b60b6b43406a48bf3638526314f3d232d97058bc93472ff2de930d43686fa441",
+  "data/embedding/special_tokens_map.json": "06e405a36dfe4b9604f484f6a1e619af1a7f7d09e34a8555eb0b77b66318067f",
+  "data/embedding/.model_quantized.onnx.9RzX0V": "cc8f0677086ef821fd6d6db75adbe7d437aa22fd77e969b0e9dbc6a8a33785b2",
+  "data/embedding/tokenizer_config.json": "3f5961b9ac86288cccdb97f32fb848d6187c78e1603958c53f3ea1f296b7d8a2",
+  "data/embedding/model_quantized.onnx": "66fc00f5f29afcaff34092e1bdd20008ca3918265a82fb9695a551e510cc4ebc",
+  "data/embedding/config.json": "05b570bff786faa5c4604152aa16f19f77ed6dfc31e47dd0f3dd987078693ac7",
+  "data/speech/base/tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+  "data/speech/base/vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+  "data/speech/base/.model.bin.YPhrug.RCqCYi": "7eb69911d231b957f7756e3c4495bbb4aa9d07747fad1413a7186da0991b4199",
+  "data/speech/base/model.bin": "d01c3014881c9c6f3133c182f3d2887eb6ca1c789a7538c5c007196857a0a6a9",
+  "data/speech/base/.model.bin.YPhrug": "7cf1a79f18e174798388b09692ec7ba1f38a01ed57a00e2f1abd7cdb318d0fe6",
+  "data/speech/base/config.json": "56a6d8110d311f19c8f0471e562832c7527f146b567275bfca59fcf7c184da9a",
+  "data/speech/small/tokenizer.json": "fb7b63191e9bb045082c79fd742a3106a12c99513ab30df4a0d47fa6cb6fd0ab",
+  "data/speech/small/vocabulary.txt": "34ce3fe1c5041027b3f8d42912270993f986dbc4bb34cf27f951e34a1e453913",
+  "data/speech/small/model.bin": "3e305921506d8872816023e4c273e75d2419fb89b24da97b4fe7bce14170d671",
+  "data/speech/small/config.json": "b55496ac7940a7ae47d2c01eab40edfd8701feec1229d9cce3b40014383fb828",
+  "data/speech/small/.model.bin.tN2uOa": "d5d19731affaa16836e6aa134a53a4d026f93f6709fd916149dc1c5dab38d92e"
+}

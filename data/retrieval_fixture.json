@@ -1,0 +1,146 @@
+{
+  "policies": [
+    [
+      "returns",
+      "Unopened goods can be returned within 14 days with a receipt. المنتجات غير المفتوحة ترجع خلال 14 يوم مع الفاتورة."
+    ],
+    [
+      "approval",
+      "Owner approval is mandatory before refunds. رد الفلوس يحتاج موافقة المالك."
+    ],
+    [
+      "purchasing",
+      "Purchases above 5000 EGP require owner approval. شراء فوق 5000 جنيه يحتاج موافقة المالك."
+    ],
+    [
+      "oil",
+      "Oil supplier lead time is 3 days and safety stock is 10 cartons. توريد الزيت 3 ايام ومخزون الامان 10 كراتين."
+    ],
+    [
+      "credit",
+      "Customer credit limit is 2000 EGP. الحد الائتماني للعميل 2000 جنيه."
+    ],
+    [
+      "discount",
+      "Maximum cashier discount is 5 percent. الخصم المسموح للكاشير 5 بالمية."
+    ],
+    [
+      "delivery",
+      "Local delivery fee is 30 EGP. رسوم التوصيل المحلي 30 جنيه."
+    ],
+    [
+      "hours",
+      "The shop opens at 9 AM and closes at 11 PM. المحل يفتح 9 الصبح ويقفل 11 بالليل."
+    ],
+    [
+      "damage",
+      "Damaged goods must be photographed and quarantined. البضاعة التالفة تتصور وتتعزل."
+    ],
+    [
+      "backup",
+      "The owner reviews daily backups at closing. المالك يراجع النسخ الاحتياطي يوميا عند القفل."
+    ],
+    [
+      "rice",
+      "Rice supplier requires two days lead time. توريد الارز يحتاج يومين."
+    ],
+    [
+      "payment",
+      "Cash and bank transfer are accepted. الدفع كاش او تحويل بنكي."
+    ],
+    [
+      "staff",
+      "New staff require owner-created accounts. حساب الموظف الجديد ينشئه المالك."
+    ],
+    [
+      "stocktake",
+      "Count stock every Sunday morning. جرد المخزون كل احد الصبح."
+    ],
+    [
+      "expenses",
+      "Record rent separately from cost of goods sold. سجل الايجار منفصل عن تكلفة البضاعة المباعة."
+    ]
+  ],
+  "queries": [
+    [
+      "How long can I return unopened items?",
+      "returns"
+    ],
+    [
+      "مين يوافق على رد الفلوس",
+      "approval"
+    ],
+    [
+      "شراء بست الاف يحتاج موافقة مين",
+      "purchasing"
+    ],
+    [
+      "امتى المورد يوصل الزيت",
+      "oil"
+    ],
+    [
+      "العميل ممكن ياخد اجل بكام",
+      "credit"
+    ],
+    [
+      "اقصى خصم للكاشير كام",
+      "discount"
+    ],
+    [
+      "التوصيل المحلي بكام",
+      "delivery"
+    ],
+    [
+      "المحل بيقفل الساعة كام",
+      "hours"
+    ],
+    [
+      "اعمل ايه في البضاعة التالفة",
+      "damage"
+    ],
+    [
+      "مين يراجع النسخة الاحتياطية",
+      "backup"
+    ],
+    [
+      "When can a customer bring goods back?",
+      "returns"
+    ],
+    [
+      "هل الموظف يقدر يعمل ريفند لوحده",
+      "approval"
+    ],
+    [
+      "فاتورة مورد كبيرة محتاجة اعتماد",
+      "purchasing"
+    ],
+    [
+      "مخزون امان الزيت قد ايه",
+      "oil"
+    ],
+    [
+      "What is the customer credit cap?",
+      "credit"
+    ],
+    [
+      "What discount may the cashier offer?",
+      "discount"
+    ],
+    [
+      "How much does local shipping cost?",
+      "delivery"
+    ],
+    [
+      "What time does the shop open?",
+      "hours"
+    ],
+    [
+      "متى يتم جرد الاصناف",
+      "stocktake"
+    ],
+    [
+      "Where should rent be recorded?",
+      "expenses"
+    ]
+  ]
+}

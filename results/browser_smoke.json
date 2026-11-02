@@ -1,0 +1,18 @@
+{
+  "passed": 13,
+  "checks": [
+    "Owner login renders workspace",
+    "Assistant screen renders",
+    "Receipts screen renders",
+    "Inventory screen renders",
+    "Workflows screen renders",
+    "Knowledge screen renders",
+    "AIOps screen renders",
+    "Evidence screen renders",
+    "Receipt OCR produces review form",
+    "Arabic right-to-left layout switches",
+    "Mobile layout fits viewport",
+    "No browser JavaScript exceptions",
+    "Live Streamlit dashboard and forecast render"
+  ]
+}

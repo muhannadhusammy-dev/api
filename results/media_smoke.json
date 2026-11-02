@@ -1,0 +1,17 @@
+{
+  "passed": 11,
+  "checks": [
+    "Synthetic receipt 0: quantity and total match",
+    "Synthetic receipt 1: quantity and total match",
+    "Synthetic receipt 2: quantity and total match",
+    "Synthetic receipt 3: quantity and total match",
+    "Synthetic receipt 4: quantity and total match",
+    "Synthetic receipt 5: quantity and total match",
+    "Synthetic receipt 6: quantity and total match",
+    "Synthetic receipt 7: quantity and total match",
+    "Invalid image rejected",
+    "Health reports selected speech model",
+    "Missing optional speech weights return clear 503"
+  ],
+  "scope": "Synthetic OCR fixtures only; no speech transcription or real receipt accuracy claim"
+}

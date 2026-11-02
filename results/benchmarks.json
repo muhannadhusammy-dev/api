@@ -1,0 +1,280 @@
+{
+  "seed": 42,
+  "status": "measured",
+  "sources": {
+    "retail": "https://raw.githubusercontent.com/GonzaloBP/Almacen-de-datos-Walmart/main/Walmart.csv",
+    "ocr": "https://huggingface.co/datasets/abdoelsayed/CORU",
+    "speech": "https://huggingface.co/datasets/google/fleurs",
+    "embedding": "https://huggingface.co/Xenova/paraphrase-multilingual-MiniLM-L12-v2"
+  },
+  "intent": {
+    "data": "150 authored development utterances, not customer conversations",
+    "counts": {
+      "train": 100,
+      "validation": 25,
+      "test": 25
+    },
+    "comparison": [
+      {
+        "model": "TF-IDF + Linear SVM",
+        "validationMacroF1": 0.8795959595959596,
+        "validationAccuracy": 0.88,
+        "fitSeconds": 0.025111456000104226
+      },
+      {
+        "model": "TF-IDF + Logistic Regression",
+        "validationMacroF1": 0.8400000000000001,
+        "validationAccuracy": 0.84,
+        "fitSeconds": 0.9001122899999245
+      },
+      {
+        "model": "Multilingual transformer + LR",
+        "validationMacroF1": 0.7056277056277056,
+        "validationAccuracy": 0.72,
+        "fitSeconds": 0.08952579399965543
+      }
+    ],
+    "selected": "TF-IDF + Linear SVM",
+    "testMacroF1": 0.8795959595959596,
+    "testAccuracy": 0.88,
+    "classes": [
+      "inventory",
+      "profit",
+      "purchase",
+      "returns",
+      "sale"
+    ],
+    "confusionMatrix": [
+      [
+        5,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        4,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        4,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        5,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        0,
+        4
+      ]
+    ],
+    "limitations": "Small authored split with distinct phrases, overlapping vocabulary and no independent customer sampling. Frozen transformer embeddings plus LR, not end-to-end fine-tuning."
+  },
+  "forecast": {
+    "data": "Historical Walmart US store-week sales, 45 stores. Currency USD, not EGP or units.",
+    "rows": {
+      "train": 2475,
+      "validation": 810,
+      "test": 810
+    },
+    "dates": {
+      "train": [
+        "2011-02-04",
+        "2012-02-17"
+      ],
+      "validation": [
+        "2012-02-24",
+        "2012-06-22"
+      ],
+      "test": [
+        "2012-06-29",
+        "2012-10-26"
+      ]
+    },
+    "comparison": [
+      {
+        "model": "Seasonal Naive (52 weeks)",
+        "MAE": 63518.870123456785,
+        "RMSE": 91175.06148739716,
+        "WAPE": 0.06060234418042488,
+        "fitSeconds": 0.0011532899998201174
+      },
+      {
+        "model": "Random Forest",
+        "MAE": 46523.6303645456,
+        "RMSE": 75161.77415236131,
+        "WAPE": 0.04438745611178419,
+        "fitSeconds": 0.6665283970000928
+      },
+      {
+        "model": "LightGBM",
+        "MAE": 51163.33064130021,
+        "RMSE": 82041.22400562764,
+        "WAPE": 0.04881412038524172,
+        "fitSeconds": 0.0985156570000072
+      }
+    ],
+    "selected": "Random Forest",
+    "test": {
+      "MAE": 41220.97513484357,
+      "RMSE": 67082.58206102242,
+      "WAPE": 0.039940676498692734
+    },
+    "series": [
+      {
+        "Date": "2012-06-29",
+        "Weekly_Sales": 46597112.12,
+        "prediction": 47765869.41682691
+      },
+      {
+        "Date": "2012-07-06",
+        "Weekly_Sales": 51253021.88,
+        "prediction": 47607810.27167763
+      },
+      {
+        "Date": "2012-07-13",
+        "Weekly_Sales": 46099732.1,
+        "prediction": 46683529.83635461
+      },
+      {
+        "Date": "2012-07-20",
+        "Weekly_Sales": 46059543.45,
+        "prediction": 46047372.284137934
+      },
+      {
+        "Date": "2012-07-27",
+        "Weekly_Sales": 44097154.97,
+        "prediction": 45020168.41476995
+      },
+      {
+        "Date": "2012-08-03",
+        "Weekly_Sales": 47485899.56,
+        "prediction": 47088753.81666194
+      },
+      {
+        "Date": "2012-08-10",
+        "Weekly_Sales": 47403451.04,
+        "prediction": 46420665.27105503
+      },
+      {
+        "Date": "2012-08-17",
+        "Weekly_Sales": 47354452.05,
+        "prediction": 47148022.14586117
+      },
+      {
+        "Date": "2012-08-24",
+        "Weekly_Sales": 47447323.6,
+        "prediction": 47441362.71087876
+      },
+      {
+        "Date": "2012-08-31",
+        "Weekly_Sales": 47159639.43,
+        "prediction": 46493457.396236755
+      },
+      {
+        "Date": "2012-09-07",
+        "Weekly_Sales": 48330059.31,
+        "prediction": 47670194.49855122
+      },
+      {
+        "Date": "2012-09-14",
+        "Weekly_Sales": 44226038.65,
+        "prediction": 45467292.98134941
+      },
+      {
+        "Date": "2012-09-21",
+        "Weekly_Sales": 44354547.11,
+        "prediction": 44184530.5542071
+      },
+      {
+        "Date": "2012-09-28",
+        "Weekly_Sales": 43734899.4,
+        "prediction": 43853362.51403173
+      },
+      {
+        "Date": "2012-10-05",
+        "Weekly_Sales": 47566639.31,
+        "prediction": 47115871.11819572
+      },
+      {
+        "Date": "2012-10-12",
+        "Weekly_Sales": 46128514.25,
+        "prediction": 45637301.26029412
+      },
+      {
+        "Date": "2012-10-19",
+        "Weekly_Sales": 45122410.57,
+        "prediction": 46579058.542013876
+      },
+      {
+        "Date": "2012-10-26",
+        "Weekly_Sales": 45544116.29,
+        "prediction": 46358595.93995718
+      }
+    ],
+    "limitations": "Rolling one-week-ahead evaluation uses actual preceding observations. It is not a fixed-origin 18-week forecast and not Egyptian shop validation."
+  },
+  "anomaly": {
+    "data": "Same real retail rows; no verified anomaly labels",
+    "comparison": [
+      {
+        "model": "Robust statistical rule",
+        "threshold": 6.673141478699024,
+        "testAlerts": 3,
+        "testAlertRate": 0.003703703703703704
+      },
+      {
+        "model": "Isolation Forest",
+        "threshold": 0.6018694901612852,
+        "testAlerts": 5,
+        "testAlertRate": 0.006172839506172839
+      },
+      {
+        "model": "Autoencoder",
+        "threshold": 0.6070606592108598,
+        "testAlerts": 19,
+        "testAlertRate": 0.02345679012345679
+      }
+    ],
+    "testRows": 810,
+    "selected": null,
+    "limitations": "No precision, recall, F1 or accuracy can be measured. Alert counts do not establish which detector is best. Live purchase-cost alerts use an explicit 35% business rule, not this retail model."
+  },
+  "retrieval": {
+    "data": "15 authored bilingual policies; 10 validation and 10 held-out authored questions",
+    "comparison": [
+      {
+        "model": "BM25",
+        "validationRecall5": 1.0,
+        "validationMRR5": 0.9199999999999999
+      },
+      {
+        "model": "Multilingual embeddings",
+        "validationRecall5": 0.8,
+        "validationMRR5": 0.5116666666666666
+      },
+      {
+        "model": "Hybrid RRF",
+        "validationRecall5": 0.9,
+        "validationMRR5": 0.85
+      }
+    ],
+    "selected": "BM25",
+    "testRecall5": 1.0,
+    "testMRR5": 0.8583333333333332,
+    "limitations": "One relevant policy per query. Source-span integrity is tested separately; retrieval recall is not generated-answer correctness."
+  }
+}

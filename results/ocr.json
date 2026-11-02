@@ -1,0 +1,307 @@
+{
+  "data": "40 CORU OCR line crops selected deterministically by filename SHA-256; 20 development validation / 20 held-out test.",
+  "comparison": [
+    {
+      "model": "Tesseract Arabic+English",
+      "validationCER": 0.4516971279373368,
+      "secondsAll40": 9.870196020999174
+    },
+    {
+      "model": "Paddle PP-OCR via RapidOCR ONNX",
+      "validationCER": 0.3524804177545692,
+      "secondsAll40": 1.5301510429999325
+    }
+  ],
+  "selected": "Paddle PP-OCR via RapidOCR ONNX",
+  "testCER": 0.48873873873873874,
+  "normalization": "Same Arabic normalization and punctuation removal for both systems. Annotation tokens joined in supplied order.",
+  "limitations": "This evaluates recognition on pre-cropped lines, not full-page detection or field extraction. RapidOCR ships a Chinese/English Paddle-trained recognizer, not an Arabic-tuned PaddleOCR model; comparison does not establish the best Arabic PaddleOCR configuration. Tiny pilot only.",
+  "manifest": [
+    {
+      "file": "7bc5857b-faf4-42ab-8c4f-1485c1886164_line_19.txt",
+      "reference": "MASTERCARD 549.00EGP",
+      "split": "validation"
+    },
+    {
+      "file": "00c3a0d0-0ed2-4e27-9de1-222e3d93fa3e_line_10.txt",
+      "reference": "10.00 2.00 5.00 جم ٨ ميكرو استيك جلو",
+      "split": "validation"
+    },
+    {
+      "file": "4e3fc0c3-51d2-453d-8ad6-c1d2dede280c_line_22.txt",
+      "reference": "Discounts: 0.00",
+      "split": "validation"
+    },
+    {
+      "file": "b2227ed1-31b6-4c97-8635-fb91eb75f946_line_33.txt",
+      "reference": "150/2/106/160822",
+      "split": "validation"
+    },
+    {
+      "file": "23d3316a-2c4c-4c29-9834-1e758ce1ed54_line_12.txt",
+      "reference": "Potatoes (1kg) 2 9.50 19.00",
+      "split": "validation"
+    },
+    {
+      "file": "4c32254e-8db6-405d-a7f3-7f39adf80825_total.txt",
+      "reference": "جنيه 25 الكارت قيمه",
+      "split": "validation"
+    },
+    {
+      "file": "1e1ba1f2-5a76-40c5-bb10-8dcac4f03280_no.txt",
+      "reference": "العمليه #: 87959",
+      "split": "validation"
+    },
+    {
+      "file": "15b836c7-9504-4de4-ad37-3dff417e078b_line_30.txt",
+      "reference": "Prices Including Sales Tax",
+      "split": "validation"
+    },
+    {
+      "file": "9e154b70-0908-4dc9-8f60-09ef089c20c7_line_22.txt",
+      "reference": "17-OCT-2021 18:34:21",
+      "split": "validation"
+    },
+    {
+      "file": "cb4b7bcf-cbf1-4305-85de-75de797847b0_line_14.txt",
+      "reference": "0.00000 : دفع أقصى",
+      "split": "validation"
+    },
+    {
+      "file": "0d0ad945-4503-4eb3-a453-292cfda11d5f_line_2.txt",
+      "reference": "5th Settelement Cash",
+      "split": "validation"
+    },
+    {
+      "file": "87602347-f888-48e7-95eb-e2d6c46a6023_line_8.txt",
+      "reference": "Model size QTY Rcpt price",
+      "split": "validation"
+    },
+    {
+      "file": "cde9f72c-23bb-408f-9fba-1296c45c0c4e_line_44.txt",
+      "reference": "First Name:",
+      "split": "validation"
+    },
+    {
+      "file": "1b687132-5b22-4b85-8761-90d20134eceb_line_15.txt",
+      "reference": "Hnz Tomato Ketchup 513gm",
+      "split": "validation"
+    },
+    {
+      "file": "0dd4ada2-681e-42e7-b398-e093bc8b81c3_line_5.txt",
+      "reference": "اﻹجمالي الكميه السعر الصنف إسم",
+      "split": "validation"
+    },
+    {
+      "file": "779d6805-b41d-419d-9efd-fed1795a1600_line_3.txt",
+      "reference": "Phone :",
+      "split": "validation"
+    },
+    {
+      "file": "5e606df9-594d-4481-a254-8d6bf6bc4341_line_27.txt",
+      "reference": "Total",
+      "split": "validation"
+    },
+    {
+      "file": "1f41e91d-c7a0-426c-87e0-7163f76384da_line_3.txt",
+      "reference": "CIRCLE K TRADE MIX",
+      "split": "validation"
+    },
+    {
+      "file": "5a9ca87d-e545-4665-9285-f6993bcb4ab6_line_170.txt",
+      "reference": "S/N : POW00000098797",
+      "split": "validation"
+    },
+    {
+      "file": "40baf3c1-c600-4315-8340-0497faba8f82_line_20.txt",
+      "reference": "الشراء فاتورة اصل تقديم",
+      "split": "validation"
+    },
+    {
+      "file": "e12dd47c-c46f-4a9d-a899-c5520f7a9bf1_line_16.txt",
+      "reference": "96.69 175.80 0.5499 1ك إيدام جبنة فريكو",
+      "split": "test"
+    },
+    {
+      "file": "5f341226-b6ca-4e65-be83-763ce6830c8b_line_8.txt",
+      "reference": "7.00 7.00 1.00 ستون كولد كريم ايس",
+      "split": "test"
+    },
+    {
+      "file": "58c43aa0-786e-4753-be5c-9ae028639ada_line_39.txt",
+      "reference": "200.00 نقدى مدفوع",
+      "split": "test"
+    },
+    {
+      "file": "e9ccca3f-43fe-46e7-81b8-c0b36e6c92fb_line_19.txt",
+      "reference": "TAX Registration Number 100-507-533",
+      "split": "test"
+    },
+    {
+      "file": "2b9a8e22-429d-4fc6-b398-e96f7db8a862_total.txt",
+      "reference": "71 الإجمالى",
+      "split": "test"
+    },
+    {
+      "file": "c13a7390-0c8d-4d4c-9b3f-5b0eabebff53_line_16.txt",
+      "reference": "PPC transaction #: R211026 . 1743 . 310102",
+      "split": "test"
+    },
+    {
+      "file": "5444db83-db90-4ecc-bf76-2e6be957ea11_date.txt",
+      "reference": "4 26/08/2022 لتاريخ",
+      "split": "test"
+    },
+    {
+      "file": "9aa7a5a1-7d52-465e-bc47-3908a9c6d967_line_180.txt",
+      "reference": "45.00 Mocha Grande 1",
+      "split": "test"
+    },
+    {
+      "file": "5aeb7d29-312f-463e-bafe-e0a88cdb8292_line_37.txt",
+      "reference": "16508 الدليفرى خدمة",
+      "split": "test"
+    },
+    {
+      "file": "5803bf1c-ff7c-4f3a-9c80-d45130206085_total.txt",
+      "reference": "65.00 الاجمالى",
+      "split": "test"
+    },
+    {
+      "file": "0cfc59b6-30e8-48d5-89ad-b9141a768930_line_58.txt",
+      "reference": "المضافة القيمة ضريبة شاملة الاسعار",
+      "split": "test"
+    },
+    {
+      "file": "457e247f-d93a-41c5-b062-e59fa48a061a_line_190.txt",
+      "reference": "دقيق",
+      "split": "test"
+    },
+    {
+      "file": "2e76c622-e412-437b-870a-2c5c7a213cc4_line_6.txt",
+      "reference": "158 - ي أ س",
+      "split": "test"
+    },
+    {
+      "file": "8052471b-bd0a-43b6-b2f9-462472910938_no.txt",
+      "reference": "P2613000431527 بون",
+      "split": "test"
+    },
+    {
+      "file": "2eb71dd3-bffd-4ef1-8539-83b862238ad2_total.txt",
+      "reference": "54.000 الإجمالي",
+      "split": "test"
+    },
+    {
+      "file": "4d975614-9185-487e-8769-8049e6b49ffc_line_24.txt",
+      "reference": "Total 2,539.94 L.E",
+      "split": "test"
+    },
+    {
+      "file": "70d90f9b-4992-4345-b942-55e2d17d6c70_line_18.txt",
+      "reference": "AID : A0000000031010",
+      "split": "test"
+    },
+    {
+      "file": "a1e0d356-5207-4fc0-a512-2cd89ecd320d_line_8.txt",
+      "reference": "319.80 4 79.95 داوني ق 15 اقراص جل ريال",
+      "split": "test"
+    },
+    {
+      "file": "45c642b1-6d24-4522-988c-f05958718053_total.txt",
+      "reference": "Take Out Total 218.00",
+      "split": "test"
+    },
+    {
+      "file": "9d3b2a66-73e4-493e-87a0-788ea7f9f80e_line_10.txt",
+      "reference": "السعود ابو الله عبد الشارع",
+      "split": "test"
+    }
+  ],
+  "predictions": {
+    "Tesseract Arabic+English": [
+      "111 549 00egp",
+      "جلو استيك ميكرو 8 جم 500 200 1000",
+      "discounts 0 00",
+      "150 2 106 160822",
+      "potatoes 1kg 2 9 50 19 00 الك",
+      "75751520 13 77ظ ظ ش 52غظ a 55 5 1 سمالت 5",
+      "ae 87959",
+      "prices including sales tax",
+      "17 oct 2021 18 34 21",
+      "9 00000 a2 aol",
+      "sth settelement cash",
+      "",
+      "first nate",
+      "hnz tomato ketchup 17",
+      "tate pe الكميه الاجماني",
+      "phone",
+      "total",
+      "circle k trade mix",
+      "s n 77",
+      "fay ts الورء اسراء",
+      "96 69 17580 0 5499 ايدام اك das api",
+      "7 00 7 00 1 00 كولد ستون as ou",
+      "مدفوع نقدي 200 00",
+      "tay resistera ion durber 100 537 3",
+      "71 moa",
+      "_ppc transaction r211026 1743 310102 1",
+      "لتاريخ 26 08 2022 4",
+      "450 mocha grande 1",
+      "teh al a 001",
+      "66 00 يلامجالا",
+      "الاسمار yl ضريبة القيمة المضافة",
+      "دقيق",
+      "اس اي 158",
+      "p2613000431527 sso",
+      "ادس حلي 0 4000",
+      "total 2 539 94 le",
+      "woes 0000000031010",
+      "ادال جل اقراص5 ذق sy 79 85 4 319 80",
+      "take out total 218 00",
+      "الشارع اعبدالله ابو السعود"
+    ],
+    "Paddle PP-OCR via RapidOCR ONNX": [
+      "astercard54900egp",
+      "10 002 005 00",
+      "discounts 00",
+      "150 2 106 160822",
+      "potaloes 1kg2 9 5019 00",
+      "25",
+      "87959",
+      "prices including sales tax",
+      "17 0ct 202118 34 21",
+      "010 00000299",
+      "5thsettelementcash",
+      "modelsizeatyropt rie",
+      "first name",
+      "hnz tomato ketchup 513gm",
+      "",
+      "phcne",
+      "total",
+      "circlek trade mix",
+      "sin pow0000098797",
+      "",
+      "96 69175 800 5499",
+      "7 007 001 00",
+      "200 00",
+      "tax fegisteraion vumber 100 507 633",
+      "71",
+      "ppc transaction r211026 1743 310102",
+      "4 26 08 2022",
+      "45 00mocha grande1",
+      "08",
+      "65 00",
+      "gi",
+      "",
+      "158 1",
+      "p2613000431527",
+      "54 000",
+      "total2 539 94l e",
+      "aid a00000031010",
+      "319 80479 9515",
+      "takeouttotal218 00",
+      "gg"
+    ]
+  }
+}

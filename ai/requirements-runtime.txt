@@ -1,0 +1,12 @@
+fastapi==0.162.0
+uvicorn==0.54.0
+python-multipart==0.0.33
+numpy==2.3.5
+scikit-learn==1.8.0
+joblib==1.5.3
+rank-bm25==0.2.2
+pytesseract==0.3.13
+Pillow==12.3.0
+faster-whisper==1.2.1
+onnxruntime==1.31.1
+tokenizers==0.23.3

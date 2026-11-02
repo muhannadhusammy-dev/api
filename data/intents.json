@@ -1,0 +1,902 @@
+[
+  {
+    "text": "اشتريت 50 كرتونة زيت ب 12000 جنيه",
+    "intent": "purchase",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "سجل شراء عشر شكاير رز",
+    "intent": "purchase",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "دخل فاتورة مشتريات المورد",
+    "intent": "purchase",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "وصلت بضاعة جديدة للمحل",
+    "intent": "purchase",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "ضيف مشتريات النهارده",
+    "intent": "purchase",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "اشترينا سكر من التاجر",
+    "intent": "purchase",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "عايز اثبت فاتورة توريد",
+    "intent": "purchase",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "استلمت 20 عبوة زيت من المورد",
+    "intent": "purchase",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "احسب تكلفة البضاعة اللي اشتريتها",
+    "intent": "purchase",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "دفعت للمورد تمن 30 كرتونة",
+    "intent": "purchase",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "سجل شراء بضاعة للمخزن",
+    "intent": "purchase",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "زود المخزون بالبضاعة الجديدة",
+    "intent": "purchase",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "فاتورة شراء زيت بمبلغ 5000",
+    "intent": "purchase",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "اشتريت رز وسكر النهارده",
+    "intent": "purchase",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "قيد عملية الشراء دي",
+    "intent": "purchase",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "Add a purchase of oil",
+    "intent": "purchase",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "Record supplier purchase invoice",
+    "intent": "purchase",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "We purchased rice cartons",
+    "intent": "purchase",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "Receive the supplier delivery",
+    "intent": "purchase",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "Book a stock purchase",
+    "intent": "purchase",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "جبت للمحل 12 كرتونة زيت من المورد",
+    "intent": "purchase",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "عايز ادخل البضاعة اللي لسه واصلة",
+    "intent": "purchase",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "سجل المشتريات الجديدة بتاعتي",
+    "intent": "purchase",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "اشتريت شحنة سكر بكام",
+    "intent": "purchase",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "توريد جديد محتاج يتسجل",
+    "intent": "purchase",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "البضاعة وصلت من الموزع عايز اثبتها",
+    "intent": "purchase",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "دفعت 2400 في عشر كراتين زيت سجلهم",
+    "intent": "purchase",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "عندي فاتورة مورد عايز اضيفها",
+    "intent": "purchase",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "خلينا نثبت شراء الرز",
+    "intent": "purchase",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "New supplier stock has arrived",
+    "intent": "purchase",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "بعت 15 كرتونة زيت",
+    "intent": "sale",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "سجل بيع خمس شكاير رز",
+    "intent": "sale",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "الزبون اشترى مني سكر ب 600",
+    "intent": "sale",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "ضيف فاتورة مبيعات",
+    "intent": "sale",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "بعت بضاعة للعميل",
+    "intent": "sale",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "خصم كمية البيع من المخزون",
+    "intent": "sale",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "اعمل فاتورة بيع زيت",
+    "intent": "sale",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "سجل مبيعات النهارده",
+    "intent": "sale",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "خرجت ثلاث كراتين للزبون",
+    "intent": "sale",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "بعنا عشر وحدات",
+    "intent": "sale",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "عايز اقيد عملية بيع",
+    "intent": "sale",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "سجل الاوردر اللي اتباع",
+    "intent": "sale",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "العميل اخد كرتونة زيت",
+    "intent": "sale",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "بعت رز ب 900 جنيه",
+    "intent": "sale",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "ضيف البيع ده للحسابات",
+    "intent": "sale",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "Record an oil sale",
+    "intent": "sale",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "Sold five rice cartons",
+    "intent": "sale",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "Create a sales invoice",
+    "intent": "sale",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "Customer bought two cartons",
+    "intent": "sale",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "Register today sales",
+    "intent": "sale",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "بيع جديد خمس علب سكر بمية جنيه",
+    "intent": "sale",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "سجل اني بعت 12 وحدة",
+    "intent": "sale",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "عايز اضيف مبيعات امبارح",
+    "intent": "sale",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "خمس كراتين اتباعت للعميل",
+    "intent": "sale",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "دخل فلوس بيع الزيت",
+    "intent": "sale",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "المحل باع سبع كراتين النهارده",
+    "intent": "sale",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "عايز اثبت فاتورة العميل دي",
+    "intent": "sale",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "سجل خروج 4 شكاير مقابل 800 جنيه",
+    "intent": "sale",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "تم بيع نص الكمية",
+    "intent": "sale",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "Book customer sale of rice",
+    "intent": "sale",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "فاضل كام كرتونة زيت",
+    "intent": "inventory",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "المخزون عامل ايه",
+    "intent": "inventory",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "وريني رصيد البضاعة",
+    "intent": "inventory",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "عندي كام شيكارة رز",
+    "intent": "inventory",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "السكر قرب يخلص",
+    "intent": "inventory",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "امتى اطلب بضاعة تاني",
+    "intent": "inventory",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "عايز اعرف كمية الزيت الموجودة",
+    "intent": "inventory",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "اعرض المنتجات اللي قربت تنفد",
+    "intent": "inventory",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "محتاج اعيد طلب المخزون",
+    "intent": "inventory",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "رصيد المخزن النهارده",
+    "intent": "inventory",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "متبقي كام وحدة",
+    "intent": "inventory",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "كمية المخزون الحالية كام",
+    "intent": "inventory",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "كفاية عندي رز للاسبوع",
+    "intent": "inventory",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "عايز تقرير جرد",
+    "intent": "inventory",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "الزيت هينفد امتى",
+    "intent": "inventory",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "Show current stock",
+    "intent": "inventory",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "How many oil cartons remain",
+    "intent": "inventory",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "When should I reorder rice",
+    "intent": "inventory",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "Show low stock products",
+    "intent": "inventory",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "Inventory balance please",
+    "intent": "inventory",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "موجود عندي كام كرتونة دلوقتي",
+    "intent": "inventory",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "مخزون السكر يكفي كام يوم",
+    "intent": "inventory",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "ايه الاصناف اللي محتاجة طلب",
+    "intent": "inventory",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "اعرض لي رصيد الزيت",
+    "intent": "inventory",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "عايز اطمئن على كمية المخزن",
+    "intent": "inventory",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "البضاعة المتبقية في الرفوف قد ايه",
+    "intent": "inventory",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "هل محتاج اجيب زيت الاسبوع ده",
+    "intent": "inventory",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "الجرد الحالي للرز كام",
+    "intent": "inventory",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "فاضل من الكمية قد ايه",
+    "intent": "inventory",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "Which products need replenishment",
+    "intent": "inventory",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "قولي كسبت كام",
+    "intent": "profit",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "احسب ربح النهارده",
+    "intent": "profit",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "اجمالي الارباح كام",
+    "intent": "profit",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "هامش الربح بتاع الزيت",
+    "intent": "profit",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "المبيعات ناقص التكلفة كام",
+    "intent": "profit",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "عايز تقرير المكسب",
+    "intent": "profit",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "حسبنا تكلفة البضاعة المباعة",
+    "intent": "profit",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "صافي المكسب قبل المصاريف",
+    "intent": "profit",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "كسبان ولا خسران",
+    "intent": "profit",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "الربح الاجمالي للمحل",
+    "intent": "profit",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "وريني الايراد والتكلفة",
+    "intent": "profit",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "فرق سعر البيع والشراء كام",
+    "intent": "profit",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "ايه مكسبنا في الصفقة",
+    "intent": "profit",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "عايز احسب هامش الربح",
+    "intent": "profit",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "ارباح المبيعات عاملة ايه",
+    "intent": "profit",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "Calculate gross profit",
+    "intent": "profit",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "What is my margin",
+    "intent": "profit",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "Show revenue minus cost",
+    "intent": "profit",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "How much did we earn",
+    "intent": "profit",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "Show cost of goods sold",
+    "intent": "profit",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "طلعلي اجمالي مكسب اليوم",
+    "intent": "profit",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "الفرق بين ايرادي وتكلفتي كام",
+    "intent": "profit",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "مبيعات الزيت جابت ربح قد ايه",
+    "intent": "profit",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "عايز اعرف مكسب كل كرتونة",
+    "intent": "profit",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "احسبلي نسبة هامش المكسب",
+    "intent": "profit",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "بعد خصم تمن البضاعة فضل لي كام",
+    "intent": "profit",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "هل البيع ده كسبني ولا خسرني",
+    "intent": "profit",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "عايز اشوف تكلفة المبيعات جنب الايرادات",
+    "intent": "profit",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "التجارة دي مكسبها كام",
+    "intent": "profit",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "What did this sale contribute",
+    "intent": "profit",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "اعمل قسم مرتجعات",
+    "intent": "returns",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "انشئ نموذج ارجاع بضاعة",
+    "intent": "returns",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "عايز نظام للمرتجعات",
+    "intent": "returns",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "الزبون عايز يرجع زيت",
+    "intent": "returns",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "سجل طلب مرتجع",
+    "intent": "returns",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "صمم فورمة ارجاع",
+    "intent": "returns",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "ضيف موافقة المدير للمرتجعات",
+    "intent": "returns",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "اعمل سير عمل استرجاع المنتجات",
+    "intent": "returns",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "عايز ارجع فلوس العميل",
+    "intent": "returns",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "قسم رد البضاعة محتاج يتعمل",
+    "intent": "returns",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "انشئ اجراءات المرتجعات",
+    "intent": "returns",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "نظم عملية ارجاع المنتجات",
+    "intent": "returns",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "محتاج فورم مرتجع جديد",
+    "intent": "returns",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "رجع البضاعة للمخزن بعد الموافقة",
+    "intent": "returns",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "اعمل طلب استرجاع للعميل",
+    "intent": "returns",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "Create a returns department",
+    "intent": "returns",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "Build a return approval workflow",
+    "intent": "returns",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "Customer wants a refund",
+    "intent": "returns",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "Add a returns form",
+    "intent": "returns",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "Set up goods return process",
+    "intent": "returns",
+    "split": "train",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "خلي عندي قسم للمنتجات المرتجعة",
+    "intent": "returns",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "العميل عايز يسترد فلوسه ويرجع المنتج",
+    "intent": "returns",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "صمم اجراءات رد المشتريات",
+    "intent": "returns",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "عايز فورمة للمرتجعات باعتماد المالك",
+    "intent": "returns",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "انشئ نظام ارجاع للزبائن",
+    "intent": "returns",
+    "split": "validation",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "جهزلي شاشة يسجلوا فيها المرتجعات",
+    "intent": "returns",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "الزبون رجع كرتونة ومحتاج موافقة",
+    "intent": "returns",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "اعمل نموذج رد صنف للمخزن",
+    "intent": "returns",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "نحتاج اجراء لاسترداد الثمن",
+    "intent": "returns",
+    "split": "test",
+    "origin": "authored development fixture"
+  },
+  {
+    "text": "Configure a product return approval",
+    "intent": "returns",
+    "split": "test",
+    "origin": "authored development fixture"
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "data": "8 generated English full-page receipts, 4 validation / 4 test, four fields each",
+  "comparison": [
+    {
+      "model": "Tesseract full page",
+      "validationFieldF1": 1.0
+    },
+    {
+      "model": "Paddle PP-OCR full page",
+      "validationFieldF1": 1.0
+    }
+  ],
+  "selected": "Tesseract full page",
+  "testFieldF1": 1.0,
+  "limitations": "Synthetic clean fixtures only. They verify extraction plumbing; no claim of Arabic real-receipt field accuracy. Ties prefer the simpler Tesseract installation."
+}

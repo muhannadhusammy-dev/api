@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "checks": [
+    "Stopped actual AI process",
+    "AIOps reported unavailable",
+    "Command returned503",
+    "Inventory unchanged"
+  ]
+}

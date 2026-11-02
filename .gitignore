@@ -1,0 +1,15 @@
+.env
+.venv/
+**/node_modules/
+**/bin/
+**/obj/
+**/__pycache__/
+*.db*
+data/embedding/
+data/speech/base/
+data/speech/small/
+
+.pytest_cache/
+**/.venv/
+*.log
+artifacts/

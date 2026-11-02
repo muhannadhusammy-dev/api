@@ -1,0 +1,1093 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TajerOS AI Study Guide</title><style>body{margin:0;background:#f7f7f1;color:#253d35;font:17px/1.75 system-ui,sans-serif}main{max-width:1100px;margin:auto;padding:60px 32px}h1{font:700 48px/1.15 Georgia,serif}h2{font:700 30px/1.25 Georgia,serif;border-top:1px solid #cdd8c8;padding-top:30px;margin-top:54px}h3{font-size:23px}table{border-collapse:collapse;width:100%;font-size:14px;margin:25px 0;background:white}td,th{padding:12px;border:1px solid #d4ded2;text-align:left;vertical-align:top}th{background:#285648;color:white}tr:nth-child(even){background:#edf2e9}a{color:#087165}code{font-size:14px;background:#e8eee3;padding:2px 4px}pre{white-space:pre-wrap;padding:18px;background:#e8eee3}strong{color:#173e32}@media(max-width:700px){main{padding:25px 16px}h1{font-size:34px}table{display:block;overflow:auto}}@media print{body{background:white;font-size:11pt}main{padding:0}h2{break-after:avoid}tr{break-inside:avoid}}</style><main><h1 id="tajeros-ai-project-business-and-technical-study-guide">TajerOS AI: project, business and technical study guide</h1>
+<h2 id="1-explain-the-project-in-one-minute">1. Explain the project in one minute</h2>
+<p>TajerOS helps an Egyptian shop owner turn everyday descriptions and receipt images into business actions. The owner can describe a purchase in Egyptian Arabic, inspect the extracted quantity and price, then approve an inventory update. The application records sales, calculates gross profit, handles a generated returns form, answers questions from approved policies and monitors its own service health.</p>
+<p>The long-term vision is an ERP that adapts to the business. The implemented submission demonstrates a controlled part of that vision: three products, one shop and a returns workflow template. It cannot invent an arbitrary department's accounting rules. A model can suggest an action, but C# validates and posts the financial effect. This distinction is essential to explain during your defense.</p>
+<p>Egyptian explanation: «تاجر هو مساعد لصاحب المحل. تقول له اشتريت إيه أو ترفع الفاتورة، وهو يجهز اقتراح. أنت تراجع وتوافق، وبعدها المخزون والحسابات يتحدثوا. ولو البيانات ناقصة، زي سعر البيع، النظام ما يخمنش الربح.»</p>
+<h2 id="2-customer-and-business-value">2. Customer and business value</h2>
+<p>Start with a small grocery or household-goods retailer that buys cartons and sells a known set of products. The buyer is the owner. A clerk enters receipts and sales. The owner approves changes and checks stock and profit. This narrow audience gives a clearer demonstration than simultaneously promising pharmacy safety, factory planning and restaurant production.</p>
+<p>The pain is repeated manual entry, inconsistent product names, uncertainty about inventory and time spent finding policies. TajerOS proposes a simpler input method and makes the approval trail visible. These are product hypotheses. We have not interviewed merchants, measured adoption, or established willingness to pay. A polished demonstration is evidence of implementation, not proof of product-market fit.</p>
+<p>Visa's 28 July 2025 release reports that 77% of surveyed Egyptian SMEs regard digital payments as important for growth and 53% adopted them in the preceding two years. These are survey findings about payments. They support exploring digitization, but do not measure demand for this product. Source: https://www.visa.com/en-eg/newsroom/egypt-smes-digital-payments-growth-study</p>
+<table>
+<thead>
+<tr>
+<th>Route</th>
+<th>Who pays whom</th>
+<th>Fit for TajerOS</th>
+<th>Decision and reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B2B</td>
+<td>Shop pays software provider</td>
+<td>Owner controls records and approvals</td>
+<td>Initial route; one accountable buyer</td>
+</tr>
+<tr>
+<td>B2B2C</td>
+<td>Platform serves merchant, merchant serves consumer</td>
+<td>Supplier links and customer receipts may extend value</td>
+<td>Expansion after basic shop reliability</td>
+</tr>
+<tr>
+<td>B2C</td>
+<td>Consumer pays software provider</td>
+<td>Consumers do not run the shop's inventory</td>
+<td>Weak initial fit</td>
+</tr>
+<tr>
+<td>B2G</td>
+<td>Government agency buys software</td>
+<td>Possible SME digitization programme</td>
+<td>Later procurement and integration work</td>
+</tr>
+<tr>
+<td>G2B</td>
+<td>Government provides service to businesses</td>
+<td>Describes an agency's service model</td>
+<td>Requires a government operator, not a label for ordinary SaaS</td>
+</tr>
+<tr>
+<td>G2C</td>
+<td>Government provides service to citizens</td>
+<td>Distant from the first grocery workflow</td>
+<td>Not the initial scope</td>
+</tr>
+</tbody>
+</table>
+<p>A subscription per shop is a pricing hypothesis. Avoid inventing an Egyptian market price. A pilot should compare three proposed price points in interviews, measure actual support costs, and test whether owners will pay after a trial. Monthly contribution per shop equals subscription revenue minus hosting, inference, support and payment costs. Break-even shop count equals fixed monthly cost divided by positive contribution per shop. If contribution is negative, more customers make losses larger.</p>
+<p>For a concrete hypothetical calculation, assume 30 minutes saved per day on 26 working days and an assumed time value of EGP 50 per hour. The implied time value is 0.5 × 26 × 50 = EGP 650 per month. This is an illustration, not a measured saving, wage claim or justified selling price. Validate every input. Also measure incorrect postings, owner correction time and whether the tool creates additional work.</p>
+<p>A four-week discovery pilot could recruit ten consenting shop owners, observe existing entry tasks in week one, introduce reviewed receipt entry in week two, and compare correction rate and time in weeks three and four. Proposed success gates are hypotheses: owners can complete the core flow without assistance, every posting has an approval, no duplicate postings occur, and a majority voluntarily continue. Determine numerical commercial targets with the pilot team before collecting results.</p>
+<h2 id="3-architecture-and-why-each-component-exists">3. Architecture and why each component exists</h2>
+<p>The browser displays forms and sends HTTP requests. ASP.NET Core authenticates the user, applies permission rules, reads and writes the database and requests AI inference. Python performs OCR, intent prediction, retrieval and speech recognition. The AI service has no database credential and cannot approve inventory changes. That boundary limits the consequences of a wrong model answer.</p>
+<table>
+<thead>
+<tr>
+<th>Choice</th>
+<th>Alternative</th>
+<th>Why selected here</th>
+<th>Cost or limitation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>React + TypeScript</td>
+<td>Plain JavaScript, Angular, Blazor</td>
+<td>Component state suits the review/approval screens; TypeScript catches shape mistakes during build</td>
+<td>Browser types cannot replace server validation</td>
+</tr>
+<tr>
+<td>ASP.NET Core 10</td>
+<td>Node/Express, Django</td>
+<td>User requires .NET; C# implements all business rules and auth in one application</td>
+<td>SDK/runtime installation required</td>
+</tr>
+<tr>
+<td>EF Core</td>
+<td>Hand-written SQL</td>
+<td>Maps typed entities to SQLite/PostgreSQL with shared application logic</td>
+<td>Provider behavior differs; inspect generated queries</td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>SQL Server, MongoDB</td>
+<td>Relational transactions suit linked stock, ledger and approvals; Npgsql provider included</td>
+<td>PostgreSQL deployment path was not integration-tested here</td>
+</tr>
+<tr>
+<td>SQLite local demo</td>
+<td>Mandatory database server</td>
+<td>Low-friction submission setup and tested native path</td>
+<td>One local database file, not proof of multi-server behavior</td>
+</tr>
+<tr>
+<td>Python AI process</td>
+<td>Reimplement every ML library in C#</td>
+<td>Established OCR, Whisper and evaluation tooling</td>
+<td>Extra process, network calls and failure modes</td>
+</tr>
+<tr>
+<td>Cookie authentication</td>
+<td>JWT in local storage</td>
+<td>Same-origin browser app; HTTPOnly cookie reduces script access</td>
+<td>Production needs HTTPS and hardened account lifecycle</td>
+</tr>
+<tr>
+<td>Explicit workflow schema</td>
+<td>Arbitrary generated code</td>
+<td>Known fields and effects can be validated and reviewed</td>
+<td>Only returns template currently supported</td>
+</tr>
+<tr>
+<td>Exact source excerpts</td>
+<td>Unconstrained answer generation</td>
+<td>Every answer sentence can be traced to retrieved policy text</td>
+<td>Less natural answers; lexical retrieval misses paraphrases</td>
+</tr>
+<tr>
+<td>Human approval</td>
+<td>Fully automatic posting</td>
+<td>Wrong quantities or prices affect money and stock</td>
+<td>Owner still spends review time</td>
+</tr>
+</tbody>
+</table>
+<p>Backend files: Models.cs defines data shapes and EF mapping. Program.cs configures application services and routes. OpsMonitor.cs stores recent request measurements and derives alerts. Frontend/src/main.tsx implements the screens. AI/service.py exposes inference endpoints. AI/common.py contains normalization and embedding inference. The evaluation scripts create the numerical evidence.</p>
+<h2 id="4-business-data-and-transaction-rules">4. Business data and transaction rules</h2>
+<p>A Product stores identity, current stock, average purchase cost, lead time and safety stock. A Proposal stores a suggested purchase/sale, quantity, total, status, version and request key. A Ledger row records an approved economic effect. A Workflow stores the proposed form schema. A WorkflowRecord stores a submitted return awaiting approval. A BusinessDocument stores approved policy text. Audit records say who performed an action. Operator stores a hashed password and role.</p>
+<p>The seed contains demo opening balances for rice and sugar. Oil starts at zero. These values are demonstration data, not transactions from a real merchant. Never call seeded balances measured customer results.</p>
+<p>The command «اشتريت 50 كرتونة زيت بـ 12 ألف جنيه، وبعت 15 كرتونة» contains two actions. The parser understands 12 ألف as 12000. Purchase unit cost is 12000 ÷ 50 = EGP 240. After sale, quantity would be 50 − 15 = 35 cartons. Sale revenue remains unknown. The system therefore leaves the sale total empty and blocks approval until the owner supplies it. It cannot calculate profit from purchase quantity and sale quantity alone.</p>
+<p>If the owner enters EGP 4500 as total sale revenue, cost of goods sold is 15 × 240 = EGP 3600. Gross profit is 4500 − 3600 = EGP 900. Net profit would also need expenses, finance costs, tax and other accounting adjustments. This demo reports gross profit.</p>
+<p>Weighted average cost after a purchase equals (old stock × old average cost + new purchase total) ÷ (old stock + new quantity). A sale stores the cost at the time of approval, so later purchases do not rewrite historical sale cost. A return uses the original sale cost and proportional original revenue. Returning two of those cartons gives stock 37, net revenue 3900, COGS 3120 and gross profit 780. Total returned quantity may never exceed the original sold quantity.</p>
+<p>Approval uses a database transaction: proposal status, product stock, ledger and audit succeed together or roll back together. A unique proposal-to-ledger relationship and status check prevent duplicate posting. A version number rejects editing an outdated proposal. A process-local write gate serializes approval requests in this demonstration. A production multi-instance design needs database-level locking/retry tests, not reliance on this gate alone.</p>
+<p>The system flags a purchase whose unit cost differs by more than 35% from existing average cost. The owner must explicitly acknowledge the alert. Thirty-five percent is an illustrative business threshold, not a statistically validated fraud detector. A legitimate supplier price increase may trigger it.</p>
+<h2 id="5-egyptian-arabic-and-intent-classification">5. Egyptian Arabic and intent classification</h2>
+<p>Intent means the kind of request: purchase, sale, stock question, profit question or returns. The classifier turns text into one label. It does not itself extract an amount or prove a financial fact. A separate deterministic parser extracts supported quantities and totals and creates proposals. This separation helps you explain why a model score cannot establish end-to-end accounting accuracy.</p>
+<p>Normalization converts Arabic numerals to Western digits, removes elongation/diacritics and standardizes some letter forms. Character TF-IDF counts informative short character sequences. This can tolerate some spelling variation. Linear SVM learns boundaries separating intent classes. Logistic Regression learns class scores with a probabilistic link. The transformer candidate uses frozen multilingual sentence embeddings followed by Logistic Regression; it is not a fine-tuned large language model.</p>
+<p>The experiment uses 150 authored examples: 100 training, 25 validation and 25 test. Validation chooses among candidates. Test is held back until after selection. Vocabulary fitting occurs on training text. The selected SVM has validation macro F1 0.880 and test macro F1 0.880, with test accuracy 0.880. Its three errors appear in the included confusion matrix. Authored phrasing and overlapping vocabulary make this a development pilot. It does not prove performance on spontaneous Egyptian speech.</p>
+<p>The main interface accepts typed Arabic, audio uploads and a microphone recording. A voice transcript still needs review before proposal creation. Whisper Base and Small run the same Arabic transcription settings on the same eight FLEURS ar_eg clips. Four choose the candidate and four provide a held-out pilot score. These are read-speech clips, not shop recordings. Their small number gives unstable estimates. The FLEURS locale alone does not establish conversational dialect robustness.</p>
+<h2 id="6-receipt-understanding">6. Receipt understanding</h2>
+<p>OCR converts image pixels into text. Field extraction turns that text into useful values such as quantity and total. These are different tasks. An OCR engine can recognize most words and still confuse the one digit that matters for a purchase. The review form therefore shows raw OCR text and editable fields.</p>
+<p>Tesseract runs locally with Arabic and English language data. The comparison also runs a Paddle PP-OCR pipeline through RapidOCR ONNX. That downloaded recognizer is a general Chinese/English model, not an Arabic-tuned Paddle configuration. This is a measured comparison of these configurations, not a claim about the strongest possible version of either library.</p>
+<p>Forty real CORU line crops form the pilot, with twenty validation and twenty test images selected deterministically. The metric is character error rate. Paddle achieves lower validation CER and wins this crop comparison, but the selected test CER is roughly 48.9%, showing substantial errors. We retain Tesseract for the live full-page demo because an independent clean-page field extraction fixture ties the two approaches and favors the simpler deployment. These are separate tasks; the crop result does not justify claiming full-page Arabic extraction is reliable.</p>
+<p>Eight generated English receipt pages test the plumbing: four validation, four test, with four labelled fields per page. Both configurations achieve field F1 1.0 on those clean fixtures. This says the controlled template works. It does not predict real merchant receipt performance. The live parser currently creates one reviewed product line and supports oil, rice and sugar. General multi-line invoices, discounts, tax and pack conversion require additional work.</p>
+<p>CORU source: https://huggingface.co/datasets/abdoelsayed/CORU . Upstream describes approximately 20,000 receipts and provides separate OCR samples. This project evaluates forty crops, not the entire dataset. Retain source attribution and upstream license information with redistributed samples.</p>
+<h2 id="7-forecasting-and-stock-decisions">7. Forecasting and stock decisions</h2>
+<p>A forecast predicts an unknown future number from past observations. The research comparison uses historical US Walmart store-week sales, measured in USD. It has 45 stores. It is useful for checking the forecasting experiment, but does not train a validated Egyptian product demand predictor.</p>
+<p>Features include prior sales at lags 1, 2, 4 and 52 weeks, the preceding rolling mean, store identity, holiday flag and calendar features. All lag features refer to earlier observations. Training has 2475 rows, validation 810 and test 810. Dates move forward. The test simulates rolling one-week forecasts: actual observations from earlier test weeks may inform later weeks. This is not a single prediction of all eighteen weeks made before the test began.</p>
+<p>Seasonal Naive copies the same week of the previous year. Random Forest averages many decision trees. LightGBM builds trees sequentially to correct remaining errors. Validation WAPE is approximately 6.060%, 4.439% and 4.881% respectively, so Random Forest wins this comparison. Its test WAPE is 3.994%, MAE USD 41,220.98 per store-week and RMSE USD 67,082.58. The included chart aggregates all stores for readability; evaluation metrics use individual store-week rows. Aggregation can hide offsetting errors.</p>
+<p>The live shop does not use that US monetary model to predict Egyptian carton demand. It requires at least fourteen distinct sales days and then uses a simple weekly repetition of the shop's own daily units. Average days of cover equals current stock divided by estimated daily demand, when demand is positive. Reorder threshold equals lead-time demand plus safety stock. The demo intentionally says insufficient history after one sale. Sparse days, returns, seasonal changes and supplier uncertainty need better handling before deployment.</p>
+<h2 id="8-anomaly-detection">8. Anomaly detection</h2>
+<p>An anomaly is an unusual observation, not automatically fraud or a mistake. The retail experiment compares a robust statistical score, Isolation Forest and an autoencoder using normalized sales ratios. An autoencoder learns to reconstruct its input; a large reconstruction error suggests unusual input. Isolation Forest isolates observations with random splits. Robust statistics measure deviation from a typical level using a scale less sensitive to extremes.</p>
+<p>Thresholds use the 95th percentile of training scores. On 810 test rows, the approaches flag 3, 5 and 19 observations. The dataset has no verified anomaly labels. Therefore precision, recall, F1 and a best detector cannot be reported. Nineteen alerts may mean greater sensitivity or more false alarms. The live cost-change rule and operational error-rate rules are independent, explicit business controls.</p>
+<h2 id="9-retrieval-and-grounded-answers">9. Retrieval and grounded answers</h2>
+<p>RAG means retrieval-augmented generation: retrieve useful source text before writing an answer. The default implementation stops at exact evidence excerpts, giving an auditable foundation for RAG. Optional provider generation is configured separately and has not been evaluated. Do not describe default responses as generated reasoning.</p>
+<p>BM25 ranks words using term frequency and inverse document frequency. Multilingual embeddings compare vector meanings. Hybrid reciprocal rank fusion combines the rankings without assuming equal raw score scales. The fixture contains fifteen authored bilingual policy documents, ten validation questions and ten held-out questions, with one relevant policy per query. BM25 wins with validation Recall@5 1.0 and MRR@5 0.920. Test Recall@5 is 1.0 and MRR@5 0.858. Ten simple questions cannot establish general retrieval quality.</p>
+<p>The live retriever uses document title and text, while the small benchmark fixture measures its own authored document representation. Live questions with no lexical support abstain under BM25. A source citation tells the reader where the excerpt came from. It does not certify the policy as legally correct. The seeded 14-day returns rule is a fictional shop policy for demonstration, not an assertion of Egyptian consumer law.</p>
+<p>Only approved company documents feed the answer. No approved Egyptian regulatory corpus has been installed. ETA's official SDK documents signed invoice submission and related APIs: https://sdk.invoicing.eta.gov.eg/einvoicingapi/ . Integration requires a separate authenticated, validated implementation. This submission does not submit tax documents or claim compliance.</p>
+<h2 id="10-self-configuring-workflows">10. Self-configuring workflows</h2>
+<p>The owner requests a returns department. The system recognizes the supported request and proposes a schema containing saleId, quantity and reason plus an owner-approval rule. The React screen renders the form from that schema. Approval activates it. A staff member can submit a record, but only an owner can approve the financial effect.</p>
+<p>This is constrained natural-language configuration backed by a known template. The project does not execute model-generated C#, SQL or arbitrary scripts. General workflow generation would require a typed action catalogue, schema validation, access-control analysis, dry-run previews, versioning and rollback. Explain this as the product's next engineering stage rather than claiming it already exists.</p>
+<h2 id="11-aiops-and-mlops">11. AIOps and MLOps</h2>
+<p>AIOps applies analytics or AI to operating software systems. MLOps manages the lifecycle of machine-learning models, including training, evaluation, release and monitoring. They overlap, but model evaluation is not the same as service incident detection.</p>
+<p>The implemented AIOps foundation records request duration/status in an in-memory rolling buffer, computes a five-minute request window, probes the AI service, and shows alerts. p95 latency means 95% of the measured requests finish at or below that duration. A 5xx response means a server-side failure. When at least ten requests exist, a real error rate above 5% or p95 above 3000 ms triggers a rule. These thresholds are demonstration choices, not learned service-level objectives.</p>
+<p>The failure-simulation endpoint deliberately returns 503 and adds a clearly labelled simulated incident. It does not alter inventory and is excluded from normal error-rate calculation. AI health probes distinguish healthy and unavailable services. Monitoring uses real observed requests, but its detector is rule-based. We do not claim trained root-cause analysis or automatic self-healing. Restarting services is an operator action.</p>
+<p>A production AIOps extension would export OpenTelemetry traces and metrics, persist logs, correlate failures by request ID, collect incident labels and compare statistical detectors with Isolation Forest or sequence models. Evaluate alert precision, incident recall, time to detect and false alerts per day on future incidents. Do not reuse the retail anomaly score as evidence of operational incident accuracy.</p>
+<p>The model results, explicit selection criteria and saved artifacts are an initial MLOps foundation. A full platform would add a model registry, dataset versioning, release approvals, drift monitoring and rollback. Data drift means inputs have changed. Concept drift means the relationship between input and target has changed. Neither guarantees degraded quality by itself; monitor labelled outcomes when possible.</p>
+<h2 id="12-security-reliability-and-current-limits">12. Security, reliability and current limits</h2>
+<p>Passwords use the framework's password hasher. Cookies use HTTPOnly and SameSite Strict. Mutating API calls require a custom header and reject a mismatched Origin. The owner policy protects approval and operational endpoints. File size and image checks limit upload handling. User input is never executed as program code. A shared database transaction preserves financial consistency.</p>
+<p>This is still a local academic application. Production requirements include HTTPS, secret management, account enrollment/recovery, rate limits, persistent authentication keys, stronger concurrency testing, backup and restore drills, malware scanning, observability retention and multi-tenant isolation. Current startup uses EnsureCreated for convenience; production needs reviewed EF migrations. PostgreSQL is configured and compiles but was not exercised in the integration environment.</p>
+<p>Do not expose the AI service publicly. It is designed as an internal inference service. The Compose file exposes only the browser-facing API on localhost. The application does not promise offline cloud synchronization or legal compliance for regulated sectors.</p>
+<h2 id="13-verification-and-reproduction">13. Verification and reproduction</h2>
+<p>The C# build completed with zero warnings and errors. Twenty-five application assertions passed against a fresh SQLite database. They cover authorization, Arabic compound parsing, missing prices, no mutation before approval, weighted costing, idempotency, stale edits, returned quantities, anomaly acknowledgement, source excerpts, insufficient history, AIOps simulation and audit existence. These are selected regression checks, not an exhaustive security audit.</p>
+<p>The browser test opened eight screens, exercised receipt upload, checked JavaScript page errors and inspected desktop/mobile sizes. The application results and browser report are in results. Tests do not prove that every possible receipt or Arabic utterance works.</p>
+<p>To reproduce ML comparisons, install ai/requirements-evaluation.txt and download embeddings and both voice models. Run <code>python ai/evaluate.py</code>, <code>python ai/evaluate_ocr.py</code>, <code>python ai/evaluate_receipt_fields.py</code> and <code>python ai/evaluate_speech.py</code>. These may overwrite results. The selected OCR crop fixtures and audio samples are bundled. Random seeds help repeatability but library versions, CPU instructions and threading can change timings or small numerical details.</p>
+<p>For isolated application testing start the AI service on8091, then run the API at5082 with <code>ConnectionStrings__Sqlite</code> pointing to a new test database. From the parent of TajerOS run <code>python TajerOS/tests/integration.py</code>. Never point this test at real customer data. The included UI verification report records the author's run; its browser automation harness depends on the authoring environment and is not required to run the app.</p>
+<h2 id="14-questions-you-should-be-able-to-answer">14. Questions you should be able to answer</h2>
+<p><strong>Why did the transformer lose?</strong> On this small authored intent fixture, frozen multilingual embeddings plus a linear classifier achieved lower validation F1 than character SVM. That does not establish a universal weakness of transformers, and we did not fine-tune one end to end.</p>
+<p><strong>Why use a separate Python process if the backend must be .NET?</strong> All business APIs, database ownership, authorization and financial rules are C#. Python supplies specialized inference through HTTP. It cannot post transactions. This matches the chosen architecture.</p>
+<p><strong>What is actually self-building?</strong> The returns form and approval configuration derive from a supported natural-language request and render dynamically. General arbitrary department generation remains future work.</p>
+<p><strong>Where are the real results?</strong> The included JSON files and presentation charts report actual runs. Intent and retrieval inputs are authored fixtures. Retail, CORU and FLEURS are external datasets. Field extraction uses generated clean receipts. Every score must be stated with its data source.</p>
+<p><strong>Why not show anomaly accuracy?</strong> There are no verified anomaly labels. Alert count is observable, but correct detection cannot be determined without ground truth.</p>
+<p><strong>Can it calculate profit from the original example?</strong> Only after the sale revenue is supplied. Purchase cost alone gives unit cost and remaining quantity, not profit.</p>
+<p><strong>Why not claim every Egyptian business can use it?</strong> Different industries have different workflows, units, legal obligations and data quality. A small retailer is the tested demonstration scope.</p>
+<p><strong>Does AIOps heal failures?</strong> No. It measures requests, checks service health and flags conditions. The owner can simulate a failure without affecting stock. Automated remediation requires additional controls and validation.</p>
+<p><strong>What would you build next?</strong> Collect consented merchant examples, improve Arabic receipt extraction, expand typed workflow templates, add PostgreSQL concurrency tests and validate commercial value in a small pilot.</p>
+<h2 id="15-plain-language-glossary">15. Plain-language glossary</h2>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Simple meaning</th>
+<th>In this project</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AI</td>
+<td>Artificial intelligence: software that performs tasks such as recognizing speech or classifying text.</td>
+<td>TajerOS predicts intent, but approval rules remain explicit.</td>
+</tr>
+<tr>
+<td>ML</td>
+<td>Machine learning: learning numerical patterns from examples.</td>
+<td>The SVM learns from labelled commands.</td>
+</tr>
+<tr>
+<td>Model</td>
+<td>A saved set of learned parameters and a prediction procedure.</td>
+<td>results/intent.joblib contains the selected classifier.</td>
+</tr>
+<tr>
+<td>Training</td>
+<td>Using examples to fit a model.</td>
+<td>100 authored commands fit the intent models.</td>
+</tr>
+<tr>
+<td>Validation</td>
+<td>Examples used to choose a model or settings.</td>
+<td>25 commands choose the intent candidate.</td>
+</tr>
+<tr>
+<td>Test set</td>
+<td>Examples reserved for final evaluation after selection.</td>
+<td>25 different commands provide the reported test score.</td>
+</tr>
+<tr>
+<td>Ground truth</td>
+<td>The reference answer used to judge a prediction.</td>
+<td>A human-written intent label or receipt transcription.</td>
+</tr>
+<tr>
+<td>Label</td>
+<td>A category or target attached to an example.</td>
+<td>purchase is a label.</td>
+</tr>
+<tr>
+<td>Feature</td>
+<td>A numerical input supplied to a model.</td>
+<td>Last week's sales is a forecast feature.</td>
+</tr>
+<tr>
+<td>Inference</td>
+<td>Using an already trained model on new input.</td>
+<td>Predicting a clerk's command intent.</td>
+</tr>
+<tr>
+<td>Overfitting</td>
+<td>Learning peculiarities of training examples that do not generalize.</td>
+<td>Memorizing repeated receipt layouts can look deceptively accurate.</td>
+</tr>
+<tr>
+<td>Generalization</td>
+<td>Working on genuinely new examples.</td>
+<td>Success on real shops requires separate customer tests.</td>
+</tr>
+<tr>
+<td>Data leakage</td>
+<td>Information from validation/test targets improperly influencing training.</td>
+<td>Using future sales to form a lag would leak information.</td>
+</tr>
+<tr>
+<td>Baseline</td>
+<td>A simple reference approach.</td>
+<td>Seasonal Naive copies last year's week.</td>
+</tr>
+<tr>
+<td>Hyperparameter</td>
+<td>A setting chosen before fitting.</td>
+<td>Number of trees in Random Forest.</td>
+</tr>
+<tr>
+<td>Seed</td>
+<td>A number controlling pseudorandom choices.</td>
+<td>42 helps repeat the experiment.</td>
+</tr>
+<tr>
+<td>NLP</td>
+<td>Natural language processing: computation on human language.</td>
+<td>Recognizing purchase intent in Arabic.</td>
+</tr>
+<tr>
+<td>Intent</td>
+<td>The kind of action or question a user expresses.</td>
+<td>sale versus purchase.</td>
+</tr>
+<tr>
+<td>Normalization</td>
+<td>Applying consistent text transformations.</td>
+<td>Converting ١٢ to 12.</td>
+</tr>
+<tr>
+<td>Token</td>
+<td>A unit of text processed by an algorithm.</td>
+<td>A word in BM 25 or character sequence in TF-IDF.</td>
+</tr>
+<tr>
+<td>TF-IDF</td>
+<td>A weighting that favors informative text units over common ones.</td>
+<td>Character features for the intent classifier.</td>
+</tr>
+<tr>
+<td>SVM</td>
+<td>Support Vector Machine: a classifier that separates classes with decision boundaries.</td>
+<td>Selected small intent model.</td>
+</tr>
+<tr>
+<td>Logistic Regression</td>
+<td>A linear classifier using a logistic probability mapping.</td>
+<td>An alternative intent candidate.</td>
+</tr>
+<tr>
+<td>Transformer</td>
+<td>A neural architecture that models relationships among tokens.</td>
+<td>A frozen multilingual embedding candidate.</td>
+</tr>
+<tr>
+<td>Embedding</td>
+<td>A numerical vector representing meaning or other information.</td>
+<td>Similar policies may have nearby vectors.</td>
+</tr>
+<tr>
+<td>Frozen</td>
+<td>Parameters stay unchanged during the experiment.</td>
+<td>The sentence encoder is not fine-tuned.</td>
+</tr>
+<tr>
+<td>Fine-tuning</td>
+<td>Updating a pretrained model using task-specific examples.</td>
+<td>A future Egyptian speech improvement strategy.</td>
+</tr>
+<tr>
+<td>OCR</td>
+<td>Optical character recognition: reading text from pixels.</td>
+<td>Receipt image to text.</td>
+</tr>
+<tr>
+<td>Tesseract</td>
+<td>An open-source OCR engine.</td>
+<td>Live full-page receipt reader.</td>
+</tr>
+<tr>
+<td>PaddleOCR</td>
+<td>An OCR toolkit with trained recognition/detection models.</td>
+<td>Compared via RapidOCR ONNX configuration.</td>
+</tr>
+<tr>
+<td>CER</td>
+<td>Character error rate: substitutions, deletions and insertions divided by reference characters.</td>
+<td>Lower is better; it can exceed 1.</td>
+</tr>
+<tr>
+<td>WER</td>
+<td>Word error rate: analogous edit errors divided by reference words.</td>
+<td>Measures speech transcription mistakes.</td>
+</tr>
+<tr>
+<td>Precision</td>
+<td>Correct positive predictions divided by all positive predictions.</td>
+<td>Requires verified labels.</td>
+</tr>
+<tr>
+<td>Recall</td>
+<td>Correct positive predictions divided by all actual positives.</td>
+<td>How many relevant events the detector finds.</td>
+</tr>
+<tr>
+<td>F 1</td>
+<td>Harmonic mean of precision and recall.</td>
+<td>Balances both kinds of classification error.</td>
+</tr>
+<tr>
+<td>Macro F 1</td>
+<td>Unweighted average of each class's F 1.</td>
+<td>Treats each intent as equally important.</td>
+</tr>
+<tr>
+<td>Accuracy</td>
+<td>Correct labels divided by total examples.</td>
+<td>22 correct out of 25 equals 0.88.</td>
+</tr>
+<tr>
+<td>Confusion matrix</td>
+<td>Counts actual classes against predicted classes.</td>
+<td>Shows which intents get confused.</td>
+</tr>
+<tr>
+<td>MAE</td>
+<td>Mean absolute error: average absolute prediction miss.</td>
+<td>Forecast errors measured in USD per store-week.</td>
+</tr>
+<tr>
+<td>RMSE</td>
+<td>Square root of mean squared error.</td>
+<td>Larger misses receive more influence than with MAE.</td>
+</tr>
+<tr>
+<td>WAPE</td>
+<td>Sum of absolute errors divided by sum of absolute actual values.</td>
+<td>A percentage-style forecasting error; zero denominator is undefined.</td>
+</tr>
+<tr>
+<td>Lag</td>
+<td>An earlier observation used as a feature.</td>
+<td>Sales 52 weeks earlier.</td>
+</tr>
+<tr>
+<td>Rolling origin</td>
+<td>Move prediction time forward and use information available at each point.</td>
+<td>Earlier test actuals may feed later weekly forecasts.</td>
+</tr>
+<tr>
+<td>Random Forest</td>
+<td>Many decision trees whose outputs are averaged or voted.</td>
+<td>Selected retail forecast candidate.</td>
+</tr>
+<tr>
+<td>LightGBM</td>
+<td>Gradient-boosted tree software.</td>
+<td>Alternative forecast candidate.</td>
+</tr>
+<tr>
+<td>Anomaly</td>
+<td>An observation that differs from typical patterns.</td>
+<td>A large price change may be legitimate.</td>
+</tr>
+<tr>
+<td>Isolation Forest</td>
+<td>A method that isolates unusual points using random splits.</td>
+<td>Compared without ground-truth anomaly labels.</td>
+</tr>
+<tr>
+<td>Autoencoder</td>
+<td>A network trained to reconstruct its own inputs.</td>
+<td>High reconstruction error can signal unusual input.</td>
+</tr>
+<tr>
+<td>Threshold</td>
+<td>A boundary that triggers a decision.</td>
+<td>35% cost deviation prompts acknowledgement.</td>
+</tr>
+<tr>
+<td>RAG</td>
+<td>Retrieval-augmented generation: find evidence before composing an answer.</td>
+<td>Default app returns excerpts; generation is optional.</td>
+</tr>
+<tr>
+<td>BM 25</td>
+<td>A keyword ranking method using frequency and rarity.</td>
+<td>Selected policy retrieval method.</td>
+</tr>
+<tr>
+<td>Cosine similarity</td>
+<td>Similarity based on the angle between vectors.</td>
+<td>Used with normalized sentence embeddings.</td>
+</tr>
+<tr>
+<td>RRF</td>
+<td>Reciprocal Rank Fusion: combines rank positions from search methods.</td>
+<td>Hybrid retrieval candidate.</td>
+</tr>
+<tr>
+<td>Recall@5</td>
+<td>Fraction of relevant reference items found within the first 5 results.</td>
+<td>With one relevant item, this is top 5 hit rate.</td>
+</tr>
+<tr>
+<td>MRR@5</td>
+<td>Average inverse rank of the first relevant result within the first 5.</td>
+<td>A first-place answer contributes 1, second contributes 0.5.</td>
+</tr>
+<tr>
+<td>Citation</td>
+<td>A link or identifier connecting an answer to evidence.</td>
+<td>The policy document and its excerpt.</td>
+</tr>
+<tr>
+<td>Hallucination</td>
+<td>An unsupported generated claim.</td>
+<td>Exact excerpts reduce this particular risk.</td>
+</tr>
+<tr>
+<td>Abstention</td>
+<td>Declining to answer when evidence is insufficient.</td>
+<td>No approved document support leads to no answer.</td>
+</tr>
+<tr>
+<td>LLM</td>
+<td>Large language model: a large neural text model.</td>
+<td>Optional external generation only.</td>
+</tr>
+<tr>
+<td>Prompt</td>
+<td>Instructions and input sent to a generative model.</td>
+<td>Question plus retrieved evidence.</td>
+</tr>
+<tr>
+<td>Prompt injection</td>
+<td>Untrusted input attempting to override model instructions.</td>
+<td>A document could contain malicious commands.</td>
+</tr>
+<tr>
+<td>ERP</td>
+<td>Enterprise resource planning: connected business records/workflows.</td>
+<td>TajerOS demonstrates a small subset.</td>
+</tr>
+<tr>
+<td>SKU</td>
+<td>Stock keeping unit: a distinct tracked product.</td>
+<td>oil is a demo product identifier.</td>
+</tr>
+<tr>
+<td>Inventory</td>
+<td>Quantity and value of goods held.</td>
+<td>35 oilcartons after the example sale.</td>
+</tr>
+<tr>
+<td>Revenue</td>
+<td>Money earned from sales before related cost deductions.</td>
+<td>4500 EGP from the sample sale.</td>
+</tr>
+<tr>
+<td>COGS</td>
+<td>Cost of goods sold.</td>
+<td>3600 EGP for 15 cartons at 240 each.</td>
+</tr>
+<tr>
+<td>Gross profit</td>
+<td>Revenue minus cost of goods sold.</td>
+<td>900 EGP before expenses and tax.</td>
+</tr>
+<tr>
+<td>Net profit</td>
+<td>Profit after relevant expenses and other accounting adjustments.</td>
+<td>Not calculated by this demo.</td>
+</tr>
+<tr>
+<td>Weighted average cost</td>
+<td>Inventory cost averaged by quantities and purchase values.</td>
+<td>Prevents treating all purchases as the latest price.</td>
+</tr>
+<tr>
+<td>Lead time</td>
+<td>Delay between placing an order and receiving stock.</td>
+<td>Seeded oil policy says 3 days.</td>
+</tr>
+<tr>
+<td>Safety stock</td>
+<td>Extra stock held to absorb uncertainty.</td>
+<td>Seeded 10 cartons, an assumption.</td>
+</tr>
+<tr>
+<td>Stockout</td>
+<td>Demand arrives when usable stock is unavailable.</td>
+<td>Forecasting aims to reduce this risk.</td>
+</tr>
+<tr>
+<td>Ledger</td>
+<td>A history of approved economic effects.</td>
+<td>Purchase, sale and return entries.</td>
+</tr>
+<tr>
+<td>Audit trail</td>
+<td>A history of who did what and when.</td>
+<td>Owner approval records.</td>
+</tr>
+<tr>
+<td>Idempotency</td>
+<td>Repeating a request has the same effect as doing it once.</td>
+<td>Double-clicking approval does not double inventory.</td>
+</tr>
+<tr>
+<td>Concurrency</td>
+<td>Operations happening at overlapping times.</td>
+<td>Two owners may try to approve together.</td>
+</tr>
+<tr>
+<td>Transaction</td>
+<td>A group of database changes that succeed or fail together.</td>
+<td>Stock, ledger and approval status stay consistent.</td>
+</tr>
+<tr>
+<td>Rollback</td>
+<td>Undoing uncommitted transaction changes after failure.</td>
+<td>An invalid sale leaves stock unchanged.</td>
+</tr>
+<tr>
+<td>Schema</td>
+<td>A definition of data fields and types.</td>
+<td>The generated returns form has 3 fields.</td>
+</tr>
+<tr>
+<td>State machine</td>
+<td>Allowed states and transitions for a process.</td>
+<td>Pending proposal can become approved or rejected.</td>
+</tr>
+<tr>
+<td>API</td>
+<td>Application programming interface: defined operations between programs.</td>
+<td>Browser calls /api/proposals.</td>
+</tr>
+<tr>
+<td>HTTP</td>
+<td>The request/response protocol used by the web.</td>
+<td>POST submits a proposal.</td>
+</tr>
+<tr>
+<td>JSON</td>
+<td>A structured text data format.</td>
+<td>The workflow schema and API responses.</td>
+</tr>
+<tr>
+<td>DTO</td>
+<td>Data transfer object: a request/response data shape.</td>
+<td>Approval input includes version and acknowledgement.</td>
+</tr>
+<tr>
+<td>ASP.NET Core</td>
+<td>The .NET web application framework.</td>
+<td>Hosts business endpoints.</td>
+</tr>
+<tr>
+<td>C#</td>
+<td>The programming language used for the backend.</td>
+<td>Implements authorization and money rules.</td>
+</tr>
+<tr>
+<td>EF Core</td>
+<td>Object-relational mapper for .NET.</td>
+<td>Maps Product objects to database rows.</td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>A relational database server.</td>
+<td>Configured deployment database.</td>
+</tr>
+<tr>
+<td>SQLite</td>
+<td>An embedded relational database stored in a file.</td>
+<td>Tested local demonstration database.</td>
+</tr>
+<tr>
+<td>React</td>
+<td>A browser UI library built around components.</td>
+<td>Renders the review and workflow screens.</td>
+</tr>
+<tr>
+<td>TypeScript</td>
+<td>JavaScript with compile-time type checking.</td>
+<td>Helps catch UI data-shape mistakes.</td>
+</tr>
+<tr>
+<td>Vite</td>
+<td>Frontend development and build tooling.</td>
+<td>Produces static assets in wwwroot.</td>
+</tr>
+<tr>
+<td>Authentication</td>
+<td>Checking who the user is.</td>
+<td>Password login.</td>
+</tr>
+<tr>
+<td>Authorization</td>
+<td>Checking what the user may do.</td>
+<td>Staff cannot approve a purchase.</td>
+</tr>
+<tr>
+<td>Hash</td>
+<td>A one-way transformation used in password storage.</td>
+<td>The database stores password hashes.</td>
+</tr>
+<tr>
+<td>Cookie</td>
+<td>Browser-managed data attached to matching requests.</td>
+<td>Carries the authenticated session.</td>
+</tr>
+<tr>
+<td>HTTPOnly</td>
+<td>Cookie attribute preventing normal JavaScript access.</td>
+<td>Reduces session exposure to scripts.</td>
+</tr>
+<tr>
+<td>CSRF</td>
+<td>Cross-site request forgery: tricking a browser into an unwanted action.</td>
+<td>SameSite, origin checks and custom headers help protect writes.</td>
+</tr>
+<tr>
+<td>CORS</td>
+<td>Browser policy for cross-origin API access.</td>
+<td>No cross-origin API access is enabled here.</td>
+</tr>
+<tr>
+<td>CSP</td>
+<td>Content Security Policy: rules limiting browser resource execution.</td>
+<td>The app emits a security policy header.</td>
+</tr>
+<tr>
+<td>AIOps</td>
+<td>Analytics/AI applied to operating software systems.</td>
+<td>Current foundation monitors requests with explicit rules.</td>
+</tr>
+<tr>
+<td>MLOps</td>
+<td>Practices for developing, releasing and monitoring models.</td>
+<td>Saved experiments are a first step.</td>
+</tr>
+<tr>
+<td>Telemetry</td>
+<td>Measurements emitted by running software.</td>
+<td>Request duration and status.</td>
+</tr>
+<tr>
+<td>Latency</td>
+<td>Time taken to complete a request.</td>
+<td>Measured in milliseconds.</td>
+</tr>
+<tr>
+<td>p 95</td>
+<td>The 95 thpercentile of a set of values.</td>
+<td>A tail-latency indicator, not the average.</td>
+</tr>
+<tr>
+<td>Error rate</td>
+<td>Failed requests divided by observed requests.</td>
+<td>5 xxrate in the monitoring window.</td>
+</tr>
+<tr>
+<td>Health probe</td>
+<td>A request checking whether a service responds.</td>
+<td>API calls AI/health.</td>
+</tr>
+<tr>
+<td>SLO</td>
+<td>Service-level objective: a target for reliability or speed.</td>
+<td>Production thresholds need an agreed target.</td>
+</tr>
+<tr>
+<td>MTTR</td>
+<td>Mean time to recovery or repair, depending on the agreed definition.</td>
+<td>Requires real incident timing to measure.</td>
+</tr>
+<tr>
+<td>Drift</td>
+<td>A change in inputs or their relationship to outcomes.</td>
+<td>A new supplier receipt layout changes OCR inputs.</td>
+</tr>
+<tr>
+<td>Model registry</td>
+<td>A controlled catalogue of model versions and metadata.</td>
+<td>Future lifecycle feature.</td>
+</tr>
+<tr>
+<td>Canary release</td>
+<td>Expose a new version to a small share of traffic first.</td>
+<td>Potential model rollout strategy.</td>
+</tr>
+<tr>
+<td>Container</td>
+<td>A packaged process environment.</td>
+<td>Docker images hold API and AI dependencies.</td>
+</tr>
+<tr>
+<td>Docker Compose</td>
+<td>A definition for running related containers together.</td>
+<td>Starts PostgreSQL,AIandAPI.</td>
+</tr>
+<tr>
+<td>B 2 B</td>
+<td>A business sells to another business.</td>
+<td>TajerOS subscription sold to a shop.</td>
+</tr>
+<tr>
+<td>B 2 B 2 C</td>
+<td>A business serves consumers through another business.</td>
+<td>Future merchant/customer flows.</td>
+</tr>
+<tr>
+<td>B 2 C</td>
+<td>A business sells directly to a consumer.</td>
+<td>Not the primary shop-ERP route.</td>
+</tr>
+<tr>
+<td>B 2 G</td>
+<td>A business sells to government.</td>
+<td>Possible later procurement route.</td>
+</tr>
+<tr>
+<td>G 2 B</td>
+<td>Government provides a service to businesses.</td>
+<td>Government-operated digitization service.</td>
+</tr>
+<tr>
+<td>G 2 C</td>
+<td>Government provides a service to citizens.</td>
+<td>Different operator and beneficiary model.</td>
+</tr>
+<tr>
+<td>SaaS</td>
+<td>Software as a service: hosted software accessed over a network.</td>
+<td>A possible commercial delivery model.</td>
+</tr>
+<tr>
+<td>Churn</td>
+<td>Customers stopping use or payment.</td>
+<td>Measure during a future pilot.</td>
+</tr>
+<tr>
+<td>Unit economics</td>
+<td>Revenue and variable cost for one customer/unit.</td>
+<td>Contribution per shop.</td>
+</tr>
+<tr>
+<td>Product-market fit</td>
+<td>Evidence that a product satisfies a market sufficiently to sustain demand.</td>
+<td>Not established by this submission.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-complete-measured-comparison-table">16. Complete measured comparison table</h2>
+<p>Different metrics and datasets cannot be combined into one overall accuracy ranking. Values below retain their native fraction/count units.</p>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Candidate</th>
+<th>Metric</th>
+<th>Value</th>
+<th>Direction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Intent</td>
+<td>TF-IDF + Linear SVM</td>
+<td>validationMacroF1</td>
+<td>0.879596</td>
+<td>higher</td>
+</tr>
+<tr>
+<td>Intent</td>
+<td>TF-IDF + Logistic Regression</td>
+<td>validationMacroF1</td>
+<td>0.840000</td>
+<td>higher</td>
+</tr>
+<tr>
+<td>Intent</td>
+<td>Multilingual transformer + LR</td>
+<td>validationMacroF1</td>
+<td>0.705628</td>
+<td>higher</td>
+</tr>
+<tr>
+<td>Forecast</td>
+<td>Seasonal Naive (52 weeks)</td>
+<td>WAPE</td>
+<td>0.060602</td>
+<td>lower</td>
+</tr>
+<tr>
+<td>Forecast</td>
+<td>Random Forest</td>
+<td>WAPE</td>
+<td>0.044387</td>
+<td>lower</td>
+</tr>
+<tr>
+<td>Forecast</td>
+<td>LightGBM</td>
+<td>WAPE</td>
+<td>0.048814</td>
+<td>lower</td>
+</tr>
+<tr>
+<td>Anomaly</td>
+<td>Robust statistical rule</td>
+<td>testAlerts</td>
+<td>3</td>
+<td>neither</td>
+</tr>
+<tr>
+<td>Anomaly</td>
+<td>Isolation Forest</td>
+<td>testAlerts</td>
+<td>5</td>
+<td>neither</td>
+</tr>
+<tr>
+<td>Anomaly</td>
+<td>Autoencoder</td>
+<td>testAlerts</td>
+<td>19</td>
+<td>neither</td>
+</tr>
+<tr>
+<td>Retrieval</td>
+<td>BM25</td>
+<td>validationRecall5</td>
+<td>1.000000</td>
+<td>higher</td>
+</tr>
+<tr>
+<td>Retrieval</td>
+<td>Multilingual embeddings</td>
+<td>validationRecall5</td>
+<td>0.800000</td>
+<td>higher</td>
+</tr>
+<tr>
+<td>Retrieval</td>
+<td>Hybrid RRF</td>
+<td>validationRecall5</td>
+<td>0.900000</td>
+<td>higher</td>
+</tr>
+<tr>
+<td>OCR crops</td>
+<td>Tesseract Arabic+English</td>
+<td>validationCER</td>
+<td>0.451697</td>
+<td>lower</td>
+</tr>
+<tr>
+<td>OCR crops</td>
+<td>Paddle PP-OCR via RapidOCR ONNX</td>
+<td>validationCER</td>
+<td>0.352480</td>
+<td>lower</td>
+</tr>
+<tr>
+<td>Speech</td>
+<td>Whisper Base</td>
+<td>validationWER</td>
+<td>0.436782</td>
+<td>lower</td>
+</tr>
+<tr>
+<td>Speech</td>
+<td>Whisper Small</td>
+<td>validationWER</td>
+<td>0.241379</td>
+<td>lower</td>
+</tr>
+<tr>
+<td>Receipt fields</td>
+<td>Tesseract full page</td>
+<td>validationFieldF1</td>
+<td>1.000000</td>
+<td>higher</td>
+</tr>
+<tr>
+<td>Receipt fields</td>
+<td>Paddle PP-OCR full page</td>
+<td>validationFieldF1</td>
+<td>1.000000</td>
+<td>higher</td>
+</tr>
+</tbody>
+</table>
+<p>Speech selection: Whisper Small. Held-out WER 0.127660. Selected OCR crop test CER 0.488739. Receipt-field test F1 1.000000.</p>
+<h2 id="17-api-and-code-reading-map">17. API and code reading map</h2>
+<table>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th>Purpose</th>
+<th>What to explain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST /api/login</td>
+<td>Check hashed password and issue cookie</td>
+<td>Authentication establishes identity</td>
+</tr>
+<tr>
+<td>GET /api/dashboard</td>
+<td>Load current records and derived totals</td>
+<td>Totals come from approved ledger records</td>
+</tr>
+<tr>
+<td>POST /api/commands/propose</td>
+<td>Call AI and create pending suggestions</td>
+<td>No stock mutation happens here</td>
+</tr>
+<tr>
+<td>POST /api/proposals</td>
+<td>Submit manually reviewed transaction</td>
+<td>Server validates the supported shape</td>
+</tr>
+<tr>
+<td>PUT /api/proposals/{id}</td>
+<td>Edit pending quantity and total</td>
+<td>Version checks reject stale edits</td>
+</tr>
+<tr>
+<td>POST /api/proposals/{id}/approve</td>
+<td>Post purchase/sale</td>
+<td>Owner authorization and atomic transaction</td>
+</tr>
+<tr>
+<td>POST /api/proposals/{id}/reject</td>
+<td>Reject pending proposal</td>
+<td>Rejection leaves inventory unchanged</td>
+</tr>
+<tr>
+<td>POST /api/receipts/read</td>
+<td>Read uploaded image</td>
+<td>OCR output remains unverified evidence</td>
+</tr>
+<tr>
+<td>POST /api/voice/transcribe</td>
+<td>Read uploaded audio</td>
+<td>Transcript review precedes business action</td>
+</tr>
+<tr>
+<td>POST /api/workflows/propose</td>
+<td>Build known returns schema</td>
+<td>Constrained configuration, no generated executable code</td>
+</tr>
+<tr>
+<td>POST /api/workflows/{id}/approve</td>
+<td>Activate reviewed schema</td>
+<td>Only owner can activate</td>
+</tr>
+<tr>
+<td>POST /api/workflows/{id}/records</td>
+<td>Submit a return form</td>
+<td>Submission does not restock</td>
+</tr>
+<tr>
+<td>POST /api/workflow-records/{id}/approve</td>
+<td>Execute return</td>
+<td>Original sale cost and return limits apply</td>
+</tr>
+<tr>
+<td>POST /api/documents</td>
+<td>Add approved company policy</td>
+<td>Owner controls knowledge corpus</td>
+</tr>
+<tr>
+<td>POST /api/ask</td>
+<td>Retrieve company evidence</td>
+<td>No business writes allowed</td>
+</tr>
+<tr>
+<td>GET /api/forecast/{product}</td>
+<td>Estimate stock needs</td>
+<td>Refuses insufficient history</td>
+</tr>
+<tr>
+<td>GET /api/benchmarks</td>
+<td>Load measured experiment results</td>
+<td>Research evidence is separate from shop data</td>
+</tr>
+<tr>
+<td>GET /api/ops</td>
+<td>Request monitoring and AI health</td>
+<td>Owner-only operational view</td>
+</tr>
+<tr>
+<td>POST /api/ops/simulate-failure</td>
+<td>Safe failure demonstration</td>
+<td>Returns503, excludes simulation from real error-rate calculation</td>
+</tr>
+<tr>
+<td>GET /api/audit</td>
+<td>Read action history</td>
+<td>Inspect who approved each change</td>
+</tr>
+</tbody>
+</table>
+<p>Read code in this order: Models.cs, startup/authentication in Program.cs, proposal creation, proposal approval, return approval, OpsMonitor.cs, then AI/service.py and frontend/src/main.tsx. The UI's <code>api</code> function is the shared HTTP helper. <code>action</code> manages busy/error state and refreshes data. <code>uploadReceipt</code> sends multipart form data. <code>submitCommand</code> asks for proposals. Each visible workflow state comes from the backend response.</p>
+<p>In service.py, <code>interpret</code> combines learned intent with constrained parsing; <code>ocr</code> calls Tesseract and extracts fields; <code>ask</code> retrieves approved text; <code>forecast</code> calculates a simple baseline; <code>transcribe</code> decodes bounded audio using FFmpeg and executes Whisper. FFmpeg runs with an argument array, without shell interpretation. Model files load only from configured local paths. Do not load untrusted joblib files: Python object serialization is not a safe interchange format for arbitrary uploads.</p>
+<h2 id="18-study-plan-before-the-defense">18. Study plan before the defense</h2>
+<ol>
+<li>Read sections1–4 and explain the purchase/sale example aloud without notes.</li>
+<li>Run the README demonstration from a fresh database. Practice a missing-price rejection and duplicate approval.</li>
+<li>Learn the difference between classification, extraction, prediction and retrieval. They solve different problems.</li>
+<li>Read each result chart with its dataset, metric, split and limitation. Practice saying why the selected candidate won only this comparison.</li>
+<li>Explain the .NET/Python boundary and the transaction/approval safeguards.</li>
+<li>Demonstrate AIOps, then state exactly which automation remains future work.</li>
+<li>Use the glossary when a term is unfamiliar. You do not need to memorize every source line; you should know where each responsibility lives.</li>
+</ol></main></html>
